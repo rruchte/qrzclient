@@ -184,7 +184,7 @@ foo@bar:~$ qrz -f xml W1AW
 
 Multiple lookups work for all formats:
 ```console
-foo@bar:~$qrz -f xml K8MRD KC5HWB KI6NAZ KT1RUN
+foo@bar:~$ qrz -f xml K8MRD KC5HWB KI6NAZ KT1RUN
 <QRZDatabase>
     <Callsign>
         <call>K8MRD</call>
