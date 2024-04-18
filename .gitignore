@@ -3,4 +3,3 @@ cmake-build-debug/
 cmake-build-release/
 CMakeUserPresets.json
 conan_provider.cmake
-conandata.yml
