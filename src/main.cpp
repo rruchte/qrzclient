@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 
 	program.add_argument("-a", "--action")
 			.default_value("callsign")
-			.help("Specify the output format. callsign[default]|bio|dxcc");
+			.help("Specify the action to perform. callsign[default]|bio|dxcc");
 
 	program.add_argument("-f", "--format")
 			.default_value("console")

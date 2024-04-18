@@ -182,6 +182,7 @@ std::string CallsignMarshaler::ToXML(const std::vector<Callsign> &callsigns)
 	std::ostringstream stream;
 	Poco::XML::DOMWriter writer;
 	writer.setOptions(Poco::XML::XMLWriter::Options::WRITE_XML_DECLARATION|Poco::XML::XMLWriter::Options::PRETTY_PRINT);
+	writer.setIndent("    ");
 	writer.writeNode(stream, pDoc);
 
 	return stream.str();
