@@ -2,9 +2,9 @@
 # To keep your changes, remove these comment lines, but the plugin won't be able to modify your requirements
 
 requirements:
+  - "openssl/3.2.1"
   - "poco/1.13.2"
   - "indicators/2.3"
   - "tabulate/1.5"
   - "argparse/3.0"
   - "libconfig/1.7.3"
-  - "cpp-httplib/0.15.3"

@@ -294,7 +294,7 @@ foo@bar:~$ qrz -a dxcc -f csv 270
 ```
 
 ### Bio Retreival
-Bio retrieval is supported. Bios are only provided in HTML format. Not that at this time, QRZ is including an XML declaration and QRZDatabase opening element, followed by an HTML document, with no /QRZDatabase. This is the direct output of the API. 
+Bio retrieval is supported. Bios are only provided in HTML format. Note that at this time, QRZ is including an XML declaration and QRZDatabase opening element, followed by an HTML document, with no /QRZDatabase. This is the direct output of the API. 
 
 ```console
 foo@bar:~$ qrz -a bio W1AW 
