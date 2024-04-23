@@ -9,6 +9,12 @@
 #include "AppFormat.h"
 #include "render/RendererFactory.h"
 
+#ifdef WIN32
+#include "progressbar/DefaultProgressBar.h"
+#else
+#include "progressbar/BlockProgressBar.h"
+#endif
+
 using namespace qrz;
 
 AppController::AppController()
@@ -98,15 +104,7 @@ std::vector<Callsign> AppController::fetchCallsignRecords(const std::set<std::st
 	std::vector<std::string> errors;
 
 	// Display our progress bar
-	indicators::BlockProgressBar bar
-	{
-			indicators::option::Stream{std::cerr},
-			indicators::option::BarWidth{80},
-			indicators::option::Start{"["},
-			indicators::option::End{"]"},
-			indicators::option::ForegroundColor{indicators::Color::white}  ,
-			indicators::option::FontStyles{std::vector<indicators::FontStyle>{indicators::FontStyle::bold}}
-	};
+	auto bar = buildProgressBar();
 
 	// Progress bar value
 	auto progress = 0.0f;
@@ -125,8 +123,9 @@ std::vector<Callsign> AppController::fetchCallsignRecords(const std::set<std::st
 			showConsoleCursor(false);
 
 			// Update progress bar
-			bar.set_option(indicators::option::PostfixText{std::format("Fetching {:s}", call)});
-			bar.set_progress(progress);
+			bar->setOption(indicators::option::PostfixText{std::format("Fetching {:s}", call)});
+			bar->setProgress(progress);
+
 			progress += tickSize;
 
 			// Fetch the callsign and add it to the output buffer
@@ -169,8 +168,8 @@ std::vector<Callsign> AppController::fetchCallsignRecords(const std::set<std::st
 	}
 
 	// Finalize and tear down the progress bar
-	bar.set_option(indicators::option::PostfixText{""});
-	bar.set_progress(100);
+	bar->setOption(indicators::option::PostfixText{""});
+	bar->setProgress(100);
 	eraseLine();
 	showConsoleCursor(true);
 
@@ -190,15 +189,7 @@ std::vector<DXCC> AppController::fetchDXCCRecords(const std::set<std::string> &s
 
 	showConsoleCursor(false);
 
-	indicators::BlockProgressBar bar
-			{
-					indicators::option::Stream{std::cerr},
-					indicators::option::BarWidth{80},
-					indicators::option::Start{"["},
-					indicators::option::End{"]"},
-					indicators::option::ForegroundColor{indicators::Color::white}  ,
-					indicators::option::FontStyles{std::vector<indicators::FontStyle>{indicators::FontStyle::bold}}
-			};
+	auto bar = buildProgressBar();
 
 	auto progress = 0.0f;
 
@@ -211,8 +202,9 @@ std::vector<DXCC> AppController::fetchDXCCRecords(const std::set<std::string> &s
 
 		try
 		{
-			bar.set_option(indicators::option::PostfixText{std::format("Fetching {:s}", term)});
-			bar.set_progress(progress);
+			bar->setOption(indicators::option::PostfixText{std::format("Fetching {:s}", term)});
+			bar->setProgress(progress);
+
 			progress += tickSize;
 
 			dxccs.push_back(client.fetchDXCC(term));
@@ -241,8 +233,9 @@ std::vector<DXCC> AppController::fetchDXCCRecords(const std::set<std::string> &s
 		}
 	}
 
-	bar.set_option(indicators::option::PostfixText{""});
-	bar.set_progress(100);
+	bar->setOption(indicators::option::PostfixText{""});
+	bar->setProgress(100);
+
 	eraseLine();
 	showConsoleCursor(true);
 
@@ -371,6 +364,23 @@ inline void AppController::showConsoleCursor(bool const show) {
 	std::fputs(show ? "\033[?25h" : "\033[?25l", stderr);
 }
 
+#ifdef WIN32
+inline void AppController::eraseLine() {
+	std::fputs("\x1b[1A", stderr);
+	std::fputs("\x1b[2K", stderr);
+}
+
+std::unique_ptr<ProgressBar> AppController::buildProgressBar()
+{
+	return std::make_unique<DefaultProgressBar>();
+}
+#else
 inline void AppController::eraseLine() {
 	std::fputs("\r\033[K", stderr);
 }
+
+std::unique_ptr<ProgressBar> AppController::buildProgressBar()
+{
+	return std::make_unique<BlockProgressBar>();
+}
+#endif

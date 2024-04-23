@@ -20,6 +20,9 @@ add_executable(qrz src/main.cpp
         src/model/CallsignMarshaler.cpp
         src/model/DXCC.h
         src/model/DXCCMarshaler.cpp
+        src/progressbar/BlockProgressBar.h
+        src/progressbar/DefaultProgressBar.h
+        src/progressbar/ProgressBar.h
         src/render/BioRenderer.h
         src/render/CallsignConsoleRenderer.h
         src/render/CallsignCSVRenderer.h
@@ -35,18 +38,16 @@ add_executable(qrz src/main.cpp
         src/render/RendererFactory.h
 )
 
-find_package(OpenSSL REQUIRED)
-find_package(libconfig REQUIRED)
 find_package(argparse REQUIRED)
-find_package(tabulate REQUIRED)
 find_package(indicators REQUIRED)
+find_package(libconfig REQUIRED)
 find_package(Poco REQUIRED)
+find_package(tabulate REQUIRED)
 
-
-target_link_libraries(qrz OpenSSL::SSL)
-target_link_libraries(qrz OpenSSL::Crypto)
-target_link_libraries(qrz libconfig::libconfig)
-target_link_libraries(qrz argparse::argparse)
-target_link_libraries(qrz tabulate::tabulate)
-target_link_libraries(qrz indicators::indicators)
-target_link_libraries(qrz Poco::Poco)
+target_link_libraries(qrz
+    libconfig::libconfig
+    argparse::argparse
+    tabulate::tabulate
+    indicators::indicators
+    Poco::Poco
+)

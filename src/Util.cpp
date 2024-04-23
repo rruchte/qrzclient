@@ -35,7 +35,7 @@ namespace qrz
 		DWORD mode;
 		GetConsoleMode(hStdin, &mode);
 
-		if( !enable )using namespace qrz;
+		if( !enable )
 			mode &= ~ENABLE_ECHO_INPUT;
 		else
 			mode |= ENABLE_ECHO_INPUT;

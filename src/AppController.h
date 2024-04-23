@@ -13,6 +13,7 @@
 #include "render/CallsignConsoleRenderer.h"
 #include "render/CallsignXMLRenderer.h"
 #include "render/CallsignMarkdownRenderer.h"
+#include "progressbar/ProgressBar.h"
 #include "render/Renderer.h"
 
 namespace qrz
@@ -44,6 +45,7 @@ namespace qrz
 		void updateConfigFromClientState();
 		void showConsoleCursor(const bool show);
 		static void eraseLine();
+		static std::unique_ptr<ProgressBar> buildProgressBar();
 	};
 }
 
