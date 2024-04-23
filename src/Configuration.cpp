@@ -4,6 +4,10 @@
 #include <format>
 #include <iostream>
 
+#ifdef WIN32
+#include <userenv.h>
+#endif
+
 #include <Poco/Crypto/CipherFactory.h>
 #include <Poco/Crypto/CipherKey.h>
 #include <Poco/Crypto/CipherKeyImpl.h>
@@ -96,6 +100,29 @@ bool Configuration::hasSessionExpiration()
 	return hasValue(f_sessionExpiration);
 }
 
+#ifdef WIN32
+
+std::string Configuration::getConfigDirPath()
+{
+	const char* homePath_p = getenv("USERPROFILE");
+
+	if (!homePath_p)
+	{
+		throw libconfig::ConfigException{};
+	}
+
+	return std::format("{:s}\\.qrz", homePath_p);
+}
+
+std::string Configuration::getConfigFilePath()
+{
+	const std::string configDirPath = getConfigDirPath();
+
+	return format("{:s}\\{:s}", configDirPath, m_fileName);
+}
+
+#else
+
 std::string Configuration::getConfigDirPath()
 {
 	const char* homePath_p = getenv("HOME");
@@ -114,6 +141,8 @@ std::string Configuration::getConfigFilePath()
 
 	return format("{:s}/{:s}", configDirPath, m_fileName);
 }
+
+#endif
 
 void Configuration::loadConfig()
 {
