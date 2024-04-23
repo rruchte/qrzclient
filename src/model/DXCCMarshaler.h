@@ -1,5 +1,5 @@
-#ifndef HAMILTON_DXCCMARSHALER_H
-#define HAMILTON_DXCCMARSHALER_H
+#ifndef QRZ_DXCCMARSHALER_H
+#define QRZ_DXCCMARSHALER_H
 
 #include <vector>
 
@@ -15,4 +15,4 @@ namespace qrz
 	};
 }
 
-#endif //HAMILTON_DXCCMARSHALER_H
+#endif //QRZ_DXCCMARSHALER_H

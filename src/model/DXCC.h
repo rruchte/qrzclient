@@ -1,5 +1,5 @@
-#ifndef HAMILTON_DXCC_H
-#define HAMILTON_DXCC_H
+#ifndef QRZ_DXCC_H
+#define QRZ_DXCC_H
 
 #include <string>
 
@@ -156,4 +156,4 @@ namespace qrz
 	};
 }
 
-#endif //HAMILTON_DXCC_H
+#endif //QRZ_DXCC_H

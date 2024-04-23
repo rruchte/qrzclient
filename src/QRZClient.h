@@ -1,5 +1,5 @@
-#ifndef HAMILTON_QRZCLIENT_H
-#define HAMILTON_QRZCLIENT_H
+#ifndef QRZ_QRZCLIENT_H
+#define QRZ_QRZCLIENT_H
 
 #include <chrono>
 #include <iostream>
@@ -410,4 +410,4 @@ namespace qrz
 	};
 }
 
-#endif //HAMILTON_QRZCLIENT_H
+#endif //QRZ_QRZCLIENT_H

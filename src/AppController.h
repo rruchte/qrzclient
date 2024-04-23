@@ -10,10 +10,10 @@
 #include "Util.h"
 #include "model/Callsign.h"
 #include "model/DXCC.h"
+#include "progressbar/ProgressBar.h"
 #include "render/CallsignConsoleRenderer.h"
 #include "render/CallsignXMLRenderer.h"
 #include "render/CallsignMarkdownRenderer.h"
-#include "progressbar/ProgressBar.h"
 #include "render/Renderer.h"
 
 namespace qrz

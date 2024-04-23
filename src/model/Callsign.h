@@ -1,5 +1,5 @@
-#ifndef HAMILTON_CALLSIGN_H
-#define HAMILTON_CALLSIGN_H
+#ifndef QRZ_CALLSIGN_H
+#define QRZ_CALLSIGN_H
 
 #include <string>
 
@@ -726,4 +726,4 @@ namespace qrz
 		std::string m_name_fmt;
 	};
 }
-#endif //HAMILTON_CALLSIGN_H
+#endif //QRZ_CALLSIGN_H
