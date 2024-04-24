@@ -335,22 +335,22 @@ namespace qrz
 			m_url = url;
 		}
 
-		const std::string getUViews() const
+		const int getUViews() const
 		{
 			return m_u_views;
 		}
 
-		void setUViews(std::string mUViews)
+		void setUViews(int mUViews)
 		{
 			m_u_views = mUViews;
 		}
 
-		const std::string getBio() const
+		int getBio() const
 		{
 			return m_bio;
 		}
 
-		void setBio(std::string bio)
+		void setBio(int bio)
 		{
 			m_bio = bio;
 		}
@@ -655,10 +655,10 @@ namespace qrz
 		std::string m_url;
 
 		// QRZ web page views
-		std::string m_u_views;
+		int m_u_views;
 
 		// Approximate length of the bio HTML in bytes
-		std::string m_bio;
+		int m_bio;
 
 		// Date of the last bio update
 		std::string m_biodate;

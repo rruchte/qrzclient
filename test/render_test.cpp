@@ -57,10 +57,10 @@ namespace qrz
 
 			std::string callsignJSONW1AW = R"json([
     {
-        "AreaCode": 860,
+        "AreaCode": "860",
         "DST": "Y",
         "GMTOffset": -5,
-        "MSA": 3280,
+        "MSA": "3280",
         "TimeZone": "Eastern",
         "addr1": "225 MAIN ST",
         "addr2": "NEWINGTON",

@@ -88,8 +88,8 @@ Callsign CallsignMarshaler::FromXml(const std::string &xml_str)
 				else if (name == "imageinfo") callsign.setImageinfo(value);
 				else if (name == "serial") callsign.setSerial(value);
 				else if (name == "moddate") callsign.setModdate(value);
-				else if (name == "MSA") callsign.setMsa(atoi(value.c_str()));
-				else if (name == "AreaCode") callsign.setAreaCode(atoi(value.c_str()));
+				else if (name == "MSA") callsign.setMsa(value);
+				else if (name == "AreaCode") callsign.setAreaCode(value);
 				else if (name == "TimeZone") callsign.setTimeZone(value);
 				else if (name == "GMTOffset") callsign.setGmtOffset(atoi(value.c_str()));
 				else if (name == "DST") callsign.setDst(value);
@@ -160,8 +160,8 @@ std::string CallsignMarshaler::ToXML(const std::vector<Callsign> &callsigns)
 		pCallsignElement->appendChild(pDoc->createElement("imageinfo"))->appendChild(pDoc->createTextNode(callsign.getImageinfo()));
 		pCallsignElement->appendChild(pDoc->createElement("serial"))->appendChild(pDoc->createTextNode(callsign.getSerial()));
 		pCallsignElement->appendChild(pDoc->createElement("moddate"))->appendChild(pDoc->createTextNode(callsign.getModdate()));
-		pCallsignElement->appendChild(pDoc->createElement("MSA"))->appendChild(pDoc->createTextNode(std::to_string(callsign.getMsa())));
-		pCallsignElement->appendChild(pDoc->createElement("AreaCode"))->appendChild(pDoc->createTextNode(std::to_string(callsign.getAreaCode())));
+		pCallsignElement->appendChild(pDoc->createElement("MSA"))->appendChild(pDoc->createTextNode(callsign.getMsa()));
+		pCallsignElement->appendChild(pDoc->createElement("AreaCode"))->appendChild(pDoc->createTextNode(callsign.getAreaCode()));
 		pCallsignElement->appendChild(pDoc->createElement("TimeZone"))->appendChild(pDoc->createTextNode(callsign.getTimeZone()));
 		pCallsignElement->appendChild(pDoc->createElement("GMTOffset"))->appendChild(pDoc->createTextNode(std::to_string(callsign.getGmtOffset())));
 		pCallsignElement->appendChild(pDoc->createElement("DST"))->appendChild(pDoc->createTextNode(callsign.getDst()));
