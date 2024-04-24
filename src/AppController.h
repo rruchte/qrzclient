@@ -4,8 +4,8 @@
 #include <string>
 
 #include "AppCommand.h"
-#include "AppFormat.h"
 #include "Configuration.h"
+#include "OutputFormat.h"
 #include "QRZClient.h"
 #include "Util.h"
 #include "model/Callsign.h"
@@ -24,7 +24,7 @@ namespace qrz
 		AppController();
 		void handleCommand(const AppCommand &command);
 
-	private:
+	protected:
 		Configuration config;
 		QRZClient client;
 
@@ -33,11 +33,12 @@ namespace qrz
 		bool displayProgress = false;
 
 		void initialize();
-		void fetchAndRenderCallsigns(const std::set<std::string> &searchTerms, const AppFormat &format);
-		void fetchAndRenderBios(const std::set<std::string> &searchTerms, const AppFormat &format);
-		void fetchAndRenderDXCC(const std::set<std::string> &searchTerms, const AppFormat &format);
+		void fetchAndRenderCallsigns(const std::set<std::string> &searchTerms, const OutputFormat &format);
+		void fetchAndRenderBios(const std::set<std::string> &searchTerms, const OutputFormat &format);
+		void fetchAndRenderDXCC(const std::set<std::string> &searchTerms, const OutputFormat &format);
 		std::vector<Callsign> fetchCallsignRecords(const std::set<std::string> &searchTerms);
 		std::vector<DXCC> fetchDXCCRecords(const std::set<std::string> &searchTerms);
+		std::vector<std::string> fetchBios(const std::set<std::string> &searchTerms);
 		void refreshToken();
 		static std::string getUserCallsignFromUser();
 		std::string getPasswordFromUser();

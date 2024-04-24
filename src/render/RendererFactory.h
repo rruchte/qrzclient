@@ -1,7 +1,7 @@
 #ifndef QRZ_RENDERERFACTORY_H
 #define QRZ_RENDERERFACTORY_H
 
-#include "../AppFormat.h"
+#include "../OutputFormat.h"
 #include "../model/Callsign.h"
 #include "../model/DXCC.h"
 #include "BioRenderer.h"
@@ -22,45 +22,45 @@ namespace qrz::render
 	class RendererFactory
 	{
 	public:
-		static std::unique_ptr<Renderer<Callsign>> createCallsignRenderer(AppFormat format)
+		static std::unique_ptr<Renderer<Callsign>> createCallsignRenderer(OutputFormat format)
 		{
 			switch (format)
 			{
-				case AppFormat::CONSOLE:
+				case OutputFormat::CONSOLE:
 					return std::make_unique<CallsignConsoleRenderer>();
-				case AppFormat::CSV:
+				case OutputFormat::CSV:
 					return std::make_unique<CallsignCSVRenderer>();
-				case AppFormat::JSON:
+				case OutputFormat::JSON:
 					return std::make_unique<CallsignJSONRenderer>();
-				case AppFormat::XML:
+				case OutputFormat::XML:
 					return std::make_unique<CallsignXMLRenderer>();
-				case AppFormat::MD:
+				case OutputFormat::MD:
 					return std::make_unique<CallsignMarkdownRenderer>();
 				default:
 					throw std::invalid_argument("Invalid Format");
 			}
 		}
 
-		static std::unique_ptr<Renderer<DXCC>> createDXCCRenderer(AppFormat format)
+		static std::unique_ptr<Renderer<DXCC>> createDXCCRenderer(OutputFormat format)
 		{
 			switch (format)
 			{
-				case AppFormat::CONSOLE:
+				case OutputFormat::CONSOLE:
 					return std::make_unique<DXCCConsoleRenderer>();
-				case AppFormat::CSV:
+				case OutputFormat::CSV:
 					return std::make_unique<DXCCCSVRenderer>();
-				case AppFormat::JSON:
+				case OutputFormat::JSON:
 					return std::make_unique<DXCCJSONRenderer>();
-				case AppFormat::XML:
+				case OutputFormat::XML:
 					return std::make_unique<DXCCXMLRenderer>();
-				case AppFormat::MD:
+				case OutputFormat::MD:
 					return std::make_unique<DXCCMarkdownRenderer>();
 				default:
 					throw std::invalid_argument("Invalid Format");
 			}
 		}
 
-		static std::unique_ptr<Renderer<std::string>> createBioRenderer(AppFormat format)
+		static std::unique_ptr<Renderer<std::string>> createBioRenderer(OutputFormat format)
 		{
 			return std::make_unique<BioRenderer>();
 		}

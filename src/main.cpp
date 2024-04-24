@@ -4,7 +4,7 @@
 
 #include "Action.h"
 #include "AppController.h"
-#include "AppFormat.h"
+#include "OutputFormat.h"
 #include "Util.h"
 
 using namespace qrz;
@@ -75,23 +75,23 @@ int main(int argc, char **argv)
 
 	if(format.empty() || format == "CONSOLE")
 	{
-		command.setFormat(AppFormat::CONSOLE);
+		command.setFormat(OutputFormat::CONSOLE);
 	}
 	else if(format == "CSV")
 	{
-		command.setFormat(AppFormat::CSV);
+		command.setFormat(OutputFormat::CSV);
 	}
 	else if(format == "JSON")
 	{
-		command.setFormat(AppFormat::JSON);
+		command.setFormat(OutputFormat::JSON);
 	}
 	else if(format == "XML")
 	{
-		command.setFormat(AppFormat::XML);
+		command.setFormat(OutputFormat::XML);
 	}
 	else if(format == "MD")
 	{
-		command.setFormat(AppFormat::MD);
+		command.setFormat(OutputFormat::MD);
 	}
 
 	controller.handleCommand(command);

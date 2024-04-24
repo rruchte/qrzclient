@@ -6,7 +6,10 @@
 #include <sstream>
 #include <string>
 
+#include <Poco/DateTimeFormatter.h>
+#include <Poco/DateTimeParser.h>
 #include <Poco/Exception.h>
+#include <Poco/LocalDateTime.h>
 #include <Poco/StreamCopier.h>
 #include <Poco/URI.h>
 #include <Poco/DOM/Document.h>
@@ -19,8 +22,8 @@
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/HTTPSClientSession.h>
 #include <Poco/Net/NameValueCollection.h>
-#include <Poco/SAX/SAXException.h>
 #include <Poco/Net/SSLManager.h>
+#include <Poco/SAX/SAXException.h>
 
 #include "exception/AuthenticationException.h"
 #include "model/Callsign.h"
@@ -68,6 +71,14 @@ namespace qrz
 	public:
 		QRZClient() = default;
 
+		explicit QRZClient(Configuration &config)
+		{
+			setUsername(config.getCallsign());
+			setPassword(config.getPassword());
+			setSessionKey(config.getSessionKey());
+			setSessionExpiration(config.getSessionExpiration());
+		}
+
 		QRZClient(const std::string &username, const std::string &password, const std::string &sessionKey,
 				  const std::string &sessionExpiration) : m_username(username), m_password(password),
 														  m_sessionKey(sessionKey)
@@ -108,29 +119,19 @@ namespace qrz
 
 		const std::string getSessionExpiration() const
 		{
-			auto time_t_format = std::chrono::system_clock::to_time_t(
-					std::chrono::system_clock::now() +
-					(m_sessionExpirationTP - std::chrono::system_clock::now())
-			);
-
-			std::ostringstream oss;
-			oss << std::put_time(std::localtime(&time_t_format), m_timeFormat.c_str());
-
-			return oss.str();
+			Poco::DateTime dt(m_sessionTimestamp);
+			return Poco::DateTimeFormatter::format(dt, m_timeFormat);
 		}
 
 		void setSessionExpiration(const std::string &sessionExpiration)
 		{
-			std::tm tm = {};
-			std::istringstream iss(sessionExpiration);
-			iss >> std::get_time(&tm, m_timeFormat.c_str());
-
-			m_sessionExpirationTP = std::chrono::system_clock::now() +
-				   (std::chrono::system_clock::from_time_t(mktime(&tm)) -
-					std::chrono::system_clock::now());
+			int tzd = 0;
+			Poco::DateTime dt;
+			Poco::DateTimeParser::parse(m_timeFormat, sessionExpiration, dt, tzd);
+			m_sessionTimestamp = dt.timestamp();
 		}
 
-		QrzResponse sendRequest(Poco::URI &uri)
+		virtual QrzResponse sendRequest(Poco::URI &uri)
 		{
 			std::string path = Poco::format("/xml/%s/", m_apiVersion);
 			uri.setPath(path);
@@ -337,11 +338,11 @@ namespace qrz
 
 				if(validToken)
 				{
-					std::chrono::time_point tp = std::chrono::system_clock::now();
+					Poco::Timestamp now;
 
-					tp += std::chrono::hours(24);
+					now += std::chrono::hours(24);
 
-					m_sessionExpirationTP = tp;
+					m_sessionTimestamp = now;
 				}
 			}
 			else
@@ -352,21 +353,21 @@ namespace qrz
 
 		bool tokenIsValid()
 		{
-			std::chrono::time_point now = std::chrono::system_clock::now();
+			Poco::Timestamp now;
 
-			return (m_sessionExpirationTP > now);
+			return (m_sessionTimestamp > now);
 		}
 
-	private:
+	protected:
 		static inline const std::string m_timeFormat = "%Y-%m-%d %H:%M:%S";
-		static inline const std::string m_userAgent = "qrzclnt0.1";
+		static inline const std::string m_userAgent = "qrzclnt1.0";
 		static inline const std::string m_baseUrl = "https://xmldata.qrz.com";
 		static inline const std::string m_apiVersion = "current";
 
 		std::string m_username;
 		std::string m_password;
 		std::string m_sessionKey;
-		std::chrono::system_clock::time_point m_sessionExpirationTP;
+		Poco::Timestamp m_sessionTimestamp;
 
 		void validateResponse(const std::string &responseBody)
 		{

@@ -6,7 +6,7 @@
 #include <indicators/cursor_control.hpp>
 
 #include "Action.h"
-#include "AppFormat.h"
+#include "OutputFormat.h"
 #include "render/RendererFactory.h"
 
 #ifdef WIN32
@@ -73,7 +73,7 @@ void AppController::handleCommand(const AppCommand &command)
 	}
 }
 
-void AppController::fetchAndRenderCallsigns(const std::set<std::string> &searchTerms, const AppFormat &format)
+void AppController::fetchAndRenderCallsigns(const std::set<std::string> &searchTerms, const OutputFormat &format)
 {
 	const std::vector<Callsign> callsigns = fetchCallsignRecords(searchTerms);
 
@@ -84,13 +84,24 @@ void AppController::fetchAndRenderCallsigns(const std::set<std::string> &searchT
 	updateConfigFromClientState();
 }
 
-void AppController::fetchAndRenderDXCC(const std::set<std::string> &searchTerms, const AppFormat &format)
+void AppController::fetchAndRenderDXCC(const std::set<std::string> &searchTerms, const OutputFormat &format)
 {
 	const std::vector<DXCC> dxccRecords = fetchDXCCRecords(searchTerms);
 
 	std::unique_ptr<render::Renderer<DXCC>> renderer = render::RendererFactory::createDXCCRenderer(format);
 
 	renderer->Render(dxccRecords);
+
+	updateConfigFromClientState();
+}
+
+void AppController::fetchAndRenderBios(const std::set<std::string> &searchTerms, const OutputFormat &format)
+{
+	std::unique_ptr<render::Renderer<std::string>> renderer = render::RendererFactory::createBioRenderer(format);
+
+	std::vector<std::string> bios = fetchBios(searchTerms);
+
+	renderer->Render(bios);
 
 	updateConfigFromClientState();
 }
@@ -247,10 +258,8 @@ std::vector<DXCC> AppController::fetchDXCCRecords(const std::set<std::string> &s
 	return dxccs;
 }
 
-void AppController::fetchAndRenderBios(const std::set<std::string> &searchTerms, const AppFormat &format)
+std::vector<std::string> AppController::fetchBios(const std::set<std::string> &searchTerms)
 {
-	std::unique_ptr<render::Renderer<std::string>> renderer = render::RendererFactory::createBioRenderer(format);
-
 	std::vector<std::string> bios;
 	std::vector<std::string> errors;
 
@@ -292,9 +301,7 @@ void AppController::fetchAndRenderBios(const std::set<std::string> &searchTerms,
 		std::cerr << error << std::endl;
 	}
 
-	renderer->Render(bios);
-
-	updateConfigFromClientState();
+	return bios;
 }
 
 void AppController::refreshToken()

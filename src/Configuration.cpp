@@ -21,6 +21,11 @@ Configuration::Configuration()
 	loadConfig();
 }
 
+Configuration::Configuration(const std::string &configDirPath) : configDirPath(configDirPath)
+{
+	loadConfig();
+}
+
 std::string Configuration::getCallsign()
 {
 	return getValue(f_callsign);
@@ -103,15 +108,20 @@ bool Configuration::hasSessionExpiration()
 #ifdef WIN32
 
 std::string Configuration::getConfigDirPath()
-{
-	const char* homePath_p = getenv("USERPROFILE");
-
-	if (!homePath_p)
+{expectedAction, expectedFormat, expectedTerms
+	if (configDirPath.empty())
 	{
-		throw libconfig::ConfigException{};
+		const char* homePath_p = getenv("USERPROFILE");
+
+		if (!homePath_p)
+		{
+			throw libconfig::ConfigException {};
+		}
+
+		configDirPath = std::string{homePath_p};
 	}
 
-	return std::format("{:s}\\.qrz", homePath_p);
+	return std::format("{:s}\\.qrz", configDirPath);
 }
 
 std::string Configuration::getConfigFilePath()
@@ -125,14 +135,19 @@ std::string Configuration::getConfigFilePath()
 
 std::string Configuration::getConfigDirPath()
 {
-	const char* homePath_p = getenv("HOME");
-
-	if (!homePath_p)
+	if (configDirPath.empty())
 	{
-		throw libconfig::ConfigException {};
+		const char* homePath_p = getenv("HOME");
+
+		if (!homePath_p)
+		{
+			throw libconfig::ConfigException {};
+		}
+
+		configDirPath = std::string{homePath_p};
 	}
 
-	return std::format("{:s}/.config/qrz", homePath_p);
+	return std::format("{:s}/.config/qrz", configDirPath);
 }
 
 std::string Configuration::getConfigFilePath()

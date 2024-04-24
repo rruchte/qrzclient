@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Action.h"
-#include "AppFormat.h"
+#include "OutputFormat.h"
 
 namespace qrz
 {
@@ -14,17 +14,17 @@ namespace qrz
 	{
 	public:
 		AppCommand() = default;
-		AppCommand(Action mAction, AppFormat mFormat, const std::set<std::string> &mSearchTerm);
+		AppCommand(Action mAction, OutputFormat mFormat, const std::set<std::string> &mSearchTerm);
 		Action getAction() const;
 		void setAction(Action action);
-		AppFormat getFormat() const;
-		void setFormat(AppFormat format);
+		OutputFormat getFormat() const;
+		void setFormat(OutputFormat format);
 		const std::set<std::string> &getSearchTerms() const;
 		void setSearchTerms(const std::set<std::string> &searchTerms);
 
 	private:
 		Action m_action = Action::CALLSIGN_ACTION;
-		AppFormat m_format = AppFormat::CONSOLE;
+		OutputFormat m_format = OutputFormat::CONSOLE;
 		std::set<std::string> m_searchTerms;
 	};
 }

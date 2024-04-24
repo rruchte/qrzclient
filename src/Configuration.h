@@ -13,6 +13,8 @@ namespace qrz
 	{
 	public:
 		Configuration();
+		explicit Configuration(const std::string &configDirPath);
+
 		std::string getCallsign();
 		std::string getPassword();
 		std::string getSessionKey();
@@ -30,6 +32,7 @@ namespace qrz
 		libconfig::Config m_cfg;
 
 		static inline const char *m_fileName = "qrz.cfg";
+		std::string configDirPath;
 
 		// Field names
 		static inline const char *f_callsign = "callsign";
@@ -41,8 +44,8 @@ namespace qrz
 		void setValue(const std::string &key, const std::string &value);
 		bool hasValue(const std::string &key);
 		void loadConfig();
-		static std::string getConfigDirPath();
-		static std::string getConfigFilePath();
+		std::string getConfigDirPath();
+		std::string getConfigFilePath();
 		std::string encryptPassword(const std::string &password);
 		std::string decryptPassword(const std::string &encrypted);
 		Poco::AutoPtr<Poco::Crypto::Cipher> createCipher();

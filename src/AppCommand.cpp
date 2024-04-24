@@ -2,7 +2,7 @@
 
 using namespace qrz;
 
-AppCommand::AppCommand(Action mAction, AppFormat mFormat, const std::set<std::string> &mSearchTerms) : m_action(
+AppCommand::AppCommand(Action mAction, OutputFormat mFormat, const std::set<std::string> &mSearchTerms) : m_action(
 		mAction), m_format(mFormat), m_searchTerms(mSearchTerms)
 {}
 
@@ -16,12 +16,12 @@ void AppCommand::setAction(Action action)
 	m_action = action;
 }
 
-AppFormat AppCommand::getFormat() const
+OutputFormat AppCommand::getFormat() const
 {
 	return m_format;
 }
 
-void AppCommand::setFormat(AppFormat format)
+void AppCommand::setFormat(OutputFormat format)
 {
 	m_format = format;
 }
