@@ -18,6 +18,7 @@ namespace qrz
 		 * @return const std::string& The callsign.
 		 *
 		 * This function returns a constant reference to the callsign.
+		 * This function returns a constant reference to the callsign.
 		 */
 		const std::string &getCall() const
 		{
@@ -334,22 +335,22 @@ namespace qrz
 			m_url = url;
 		}
 
-		u_int getUViews() const
+		const std::string getUViews() const
 		{
 			return m_u_views;
 		}
 
-		void setUViews(u_int mUViews)
+		void setUViews(std::string mUViews)
 		{
 			m_u_views = mUViews;
 		}
 
-		u_int getBio() const
+		const std::string getBio() const
 		{
 			return m_bio;
 		}
 
-		void setBio(u_int bio)
+		void setBio(std::string bio)
 		{
 			m_bio = bio;
 		}
@@ -404,22 +405,22 @@ namespace qrz
 			m_moddate = moddate;
 		}
 
-		u_int getMsa() const
+		const std::string getMsa() const
 		{
 			return m_MSA;
 		}
 
-		void setMsa(u_int mMsa)
+		void setMsa(std::string mMsa)
 		{
 			m_MSA = mMsa;
 		}
 
-		u_int getAreaCode() const
+		const std::string getAreaCode() const
 		{
 			return m_AreaCode;
 		}
 
-		void setAreaCode(u_int mAreaCode)
+		void setAreaCode(std::string mAreaCode)
 		{
 			m_AreaCode = mAreaCode;
 		}
@@ -654,10 +655,10 @@ namespace qrz
 		std::string m_url;
 
 		// QRZ web page views
-		u_int m_u_views;
+		std::string m_u_views;
 
 		// Approximate length of the bio HTML in bytes
-		u_int m_bio;
+		std::string m_bio;
 
 		// Date of the last bio update
 		std::string m_biodate;
@@ -675,10 +676,10 @@ namespace qrz
 		std::string m_moddate;
 
 		// Metro Service Area (USPS)
-		u_int m_MSA;
+		std::string m_MSA;
 
 		// Telephone Area Code (USA)
-		u_int m_AreaCode;
+		std::string m_AreaCode;
 
 		// Time Zone (USA)
 		std::string m_TimeZone;

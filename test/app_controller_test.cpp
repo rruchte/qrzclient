@@ -25,7 +25,7 @@ namespace qrz
 
 			void SetUp() override
 			{
-				configDirPath = std::filesystem::temp_directory_path();
+				configDirPath = std::filesystem::temp_directory_path().string();
 				expectedConfigFilePath = std::format("{:s}/.config/qrz/qrz.cfg", configDirPath);
 
 				removeConfigTree();

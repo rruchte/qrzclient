@@ -108,7 +108,7 @@ bool Configuration::hasSessionExpiration()
 #ifdef WIN32
 
 std::string Configuration::getConfigDirPath()
-{expectedAction, expectedFormat, expectedTerms
+{
 	if (configDirPath.empty())
 	{
 		const char* homePath_p = getenv("USERPROFILE");

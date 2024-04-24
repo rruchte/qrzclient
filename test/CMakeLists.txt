@@ -1,32 +1,47 @@
 find_package(GTest REQUIRED)
 
 add_executable(qrz_test
+        ../src/Action.h
+        ../src/AppCommand.cpp
+        ../src/AppCommand.h
+        ../src/AppController.cpp
+        ../src/AppController.h
+        ../src/Configuration.h
+        ../src/Configuration.cpp
+        ../src/OutputFormat.h
+        ../src/QRZClient.h
+        ../src/Util.h
+        ../src/Util.cpp
+        ../src/exception/AuthenticationException.cpp
+        ../src/model/Callsign.h
+        ../src/model/CallsignMarshaler.cpp
+        ../src/model/DXCC.h
+        ../src/model/DXCCMarshaler.cpp
+        ../src/progressbar/BlockProgressBar.h
+        ../src/progressbar/DefaultProgressBar.h
+        ../src/progressbar/ProgressBar.h
+        ../src/render/BioRenderer.h
+        ../src/render/CallsignConsoleRenderer.h
+        ../src/render/CallsignCSVRenderer.h
+        ../src/render/CallsignMarkdownRenderer.h
+        ../src/render/CallsignJSONRenderer.h
+        ../src/render/CallsignXMLRenderer.h
+        ../src/render/DXCCConsoleRenderer.h
+        ../src/render/DXCCCSVRenderer.h
+        ../src/render/DXCCJSONRenderer.h
+        ../src/render/DXCCMarkdownRenderer.h
+        ../src/render/DXCCXMLRenderer.h
+        ../src/render/Renderer.h
+        ../src/render/RendererFactory.h
         util_test.cpp
         AppControllerProxy.h
         MockClient.h
-        ../src/Util.h
-        ../src/Util.cpp
         configuration_test.cpp
-        ../src/Configuration.h
-        ../src/Configuration.cpp
         app_command_test.cpp
-        ../src/AppCommand.h
-        ../src/AppCommand.cpp
         app_controller_test.cpp
-        ../src/AppController.h
-        ../src/AppController.cpp
-        ../src/exception/AuthenticationException.h
-        ../src/exception/AuthenticationException.cpp
-        ../src/model/CallsignMarshaler.h
-        ../src/model/CallsignMarshaler.cpp
-        ../src/model/DXCCMarshaler.h
-        ../src/model/DXCCMarshaler.cpp
         marshaler_test.cpp
         qrz_client_test.cpp
-        ../src/QRZClient.h
         render_test.cpp
-        ../src/render/RendererFactory.h
-
 )
 
 find_package(libconfig REQUIRED)
