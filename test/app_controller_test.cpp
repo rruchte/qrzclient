@@ -28,7 +28,7 @@ namespace qrz
 				configDirPath = std::filesystem::temp_directory_path().string();
 
 #ifdef WIN32
-				expectedConfigFilePath = std::format("{:s}\\.config\\qrz\\qrz.cfg", configDirPath);
+				expectedConfigFilePath = std::format("{:s}.qrz\\qrz.cfg", configDirPath);
 #else
 				expectedConfigFilePath = std::format("{:s}/.config/qrz/qrz.cfg", configDirPath);
 #endif
@@ -76,7 +76,7 @@ namespace qrz
 				if (configFileExists)
 				{
 #ifdef WIN32
-					std::string toRemovePath = std::format("{:s}\\.config", configDirPath);
+					std::string toRemovePath = std::format("{:s}.qrz", configDirPath);
 #else
 					std::string toRemovePath = std::format("{:s}/.config", configDirPath);
 #endif
