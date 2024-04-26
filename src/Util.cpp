@@ -34,7 +34,7 @@ namespace qrz
 	 *
 	 * This function takes a string as input and converts all its characters to lowercase.
 	 * It uses the std::for_each function to iterate over each character in the string and
-	 * applies a lambda function that converts each character to lowercase using std::toupper.
+	 * applies a lambda function that converts each character to lowercase using std::tolower.
 	 *
 	 * @param input The string to be converted to lowercase.
 	 */
