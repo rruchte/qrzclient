@@ -12,9 +12,21 @@
 
 namespace qrz::render
 {
+	/**
+	 * @class CallsignConsoleRenderer
+	 * @brief The CallsignConsoleRenderer class is responsible for rendering Callsign objects to the console.
+	 *
+	 * This class is derived from the Renderer<Callsign> class and provides an implementation for rendering Callsign objects.
+	 * It generates a table based on the provided Callsign objects and displays it on the console.
+	 */
 	class CallsignConsoleRenderer : public Renderer<Callsign>
 	{
 	public:
+		/**
+		 * Renders the given vector of Callsign objects to the console.
+		 *
+		 * @param callsigns - The vector of Callsign objects to be rendered.
+		 */
 		void Render(const std::vector<Callsign> &callsigns) override
 		{
 			tabulate::Table output = generateTable(callsigns);
@@ -23,6 +35,27 @@ namespace qrz::render
 		}
 
 	private:
+		/**
+		 * @brief Generates a table based on the provided Callsign objects.
+		 *
+		 * This function takes a vector of Callsign objects and generates a table with the following columns:
+		 * - Callsign
+		 * - Name
+		 * - Class
+		 * - Address
+		 * - City
+		 * - County
+		 * - State
+		 * - Zip
+		 * - Country
+		 * - Grid
+		 *
+		 * Each Callsign object in the vector will be added as a row in the table.
+		 * The header cells of the table will be centered and styled with bold font.
+		 *
+		 * @param callsignList The vector of Callsign objects.
+		 * @return A table containing the Callsign data.
+		 */
 		tabulate::Table generateTable(const std::vector<Callsign> &callsignList)
 		{
 			tabulate::Table output;

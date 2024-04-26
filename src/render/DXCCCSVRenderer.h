@@ -11,9 +11,23 @@
 
 namespace qrz::render
 {
+	/**
+	 * @class DXCCCSVRenderer
+	 * @brief The DXCCCSVRenderer class is responsible for rendering objects of type DXCC to CSV format.
+	 *
+	 * This class derives from the Renderer class and provides a custom implementation to render DXCC objects to CSV
+	 * format.
+	 */
 	class DXCCCSVRenderer : public Renderer<DXCC>
 	{
 	public:
+		/**
+		* @class DXCCCSVRenderer
+		* @brief The DXCCCSVRenderer class is responsible for rendering objects of type DXCC to CSV format.
+		*
+		* This class derives from the Renderer class and provides a custom implementation to render DXCC objects to CSV
+		* format.
+		*/
 		void Render(const std::vector<DXCC> &dxccList) override
 		{
 			std::string output = generateCSV(dxccList);
@@ -22,6 +36,14 @@ namespace qrz::render
 		}
 
 	private:
+		/**
+		 * @brief Generates a CSV string from a vector of DXCC objects.
+		 *
+		 * This function takes a vector of DXCC objects and generates a CSV string representing the data.
+		 *
+		 * @param dxccList The vector of DXCC objects.
+		 * @return The generated CSV string.
+		 */
 		static std::string generateCSV(const std::vector<DXCC> &dxccList)
 		{
 			std::vector<std::vector<std::string>> rows;

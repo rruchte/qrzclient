@@ -10,12 +10,25 @@
 
 namespace qrz::render
 {
+	/**
+	 * @class DXCCMarkdownRenderer
+	 * @brief The DXCCMarkdownRenderer class is responsible for rendering DXCC objects in markdown format.
+	 *
+	 * This class inherits from Renderer<DXCC> and provides an implementation for rendering DXCC objects in markdown format.
+	 */
 	class DXCCMarkdownRenderer : public Renderer<DXCC>
 	{
 	public:
+		/**
+		 * @brief Renders the given DXCC objects in markdown format.
+		 *
+		 * This function takes a vector of DXCC objects and generates a markdown table and prints it to the console.
+		 *
+		 * @param dxccList The vector of DXCC objects to render.
+		 */
 		void Render(const std::vector<DXCC> &dxccList) override
 		{
-			tabulate::Table output = generateTable(dxccList);
+			tabulate::Table output = generateMarkdown(dxccList);
 
 			tabulate::MarkdownExporter exporter;
 			auto markdown = exporter.dump(output);
@@ -24,7 +37,26 @@ namespace qrz::render
 		}
 
 	private:
-		static tabulate::Table generateTable(const std::vector<DXCC> &dxccList)
+		/**
+		 * @brief Generates a markdown table from a vector of DXCC objects.
+		 *
+		 * This function takes a vector of DXCC objects and generates a markdown table with the following columns:
+		 * - DXCC Code
+		 * - DXCC Name
+		 * - Continent
+		 * - County Code (2)
+		 * - County Code (3)
+		 * - ITU Zone
+		 * - CQ Zone
+		 * - Timezone
+		 * - Latitude
+		 * - Longitude
+		 * - Notes
+		 *
+		 * @param dxccList The vector of DXCC objects to generate the markdown table from.
+		 * @return The generated markdown table as a tabulate::Table object.
+		 */
+		static tabulate::Table generateMarkdown(const std::vector<DXCC> &dxccList)
 		{
 			tabulate::Table output;
 

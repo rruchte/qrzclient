@@ -3,6 +3,9 @@
 
 namespace qrz
 {
+	/**
+	 * @brief Define the possible actions that can be executed by the AppController
+	 */
 	enum Action
 	{
 		BIO_ACTION,

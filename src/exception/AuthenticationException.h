@@ -6,6 +6,12 @@
 
 namespace qrz
 {
+	/**
+	 * @class AuthenticationException
+	 * @brief Represents an exception that is thrown when QRZ API authentication fails.
+	 *
+	 * This exception class inherits from std::exception class.
+	 */
 	class AuthenticationException : public std::exception
 	{
 	public:

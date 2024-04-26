@@ -3,6 +3,9 @@
 
 namespace qrz
 {
+	/**
+	 * @brief Define the possible output formats that the AppController supports
+	 */
 	enum OutputFormat
 	{
 		CONSOLE,

@@ -60,7 +60,7 @@ namespace qrz::render
 			}
 		}
 
-		static std::unique_ptr<Renderer<std::string>> createBioRenderer(OutputFormat format)
+		static std::unique_ptr<Renderer<std::string>> createBioRenderer()
 		{
 			return std::make_unique<BioRenderer>();
 		}

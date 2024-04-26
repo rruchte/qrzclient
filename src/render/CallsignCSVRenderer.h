@@ -13,9 +13,24 @@
 
 namespace qrz::render
 {
+	/**
+	 * @class CallsignCSVRenderer
+	 * @brief The CallsignCSVRenderer class is responsible for rendering Callsign objects in CSV format.
+	 *
+	 * This class derives from the Renderer class and provides implementation for rendering Callsign objects into a CSV string.
+	 */
 	class CallsignCSVRenderer : public Renderer<Callsign>
 	{
 	public:
+		/**
+		 * @brief Renders Callsign objects in CSV format.
+		 *
+		 * This function takes a vector of Callsign objects and renders them in CSV format.
+		 * The CSV format will contain information from each Callsign object, separated by commas.
+		 * The first row of the CSV format will contain column headers.
+		 *
+		 * @param callsigns The vector of Callsign objects to render.
+		 */
 		void Render(const std::vector<Callsign> &callsigns) override
 		{
 			std::string output = generateCSV(callsigns);
@@ -24,6 +39,16 @@ namespace qrz::render
 		}
 
 	private:
+		/**
+		 * @brief Generates a CSV string from a list of Callsign objects.
+		 *
+		 * This function takes a vector of Callsign objects and converts them into a CSV string format.
+		 * The CSV string will contain information from each Callsign object, separated by commas.
+		 * The first row of the CSV string will contain column headers.
+		 *
+		 * @param callsignList The vector of Callsign objects to generate a CSV string from.
+		 * @return The CSV string representation of the Callsign objects.
+		 */
 		static std::string generateCSV(const std::vector<Callsign> &callsignList)
 		{
 			std::vector<std::vector<std::string>> rows;

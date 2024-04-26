@@ -13,18 +13,42 @@
 
 namespace qrz::render
 {
+	/**
+	 * @class CallsignJSONRenderer
+	 * @brief The CallsignJSONRenderer class is responsible for rendering Callsign objects as JSON.
+	 *
+	 * This class inherits from the Renderer<Callsign> base class and provides custom rendering functionality for Callsign objects.
+	 */
 	class CallsignJSONRenderer : public Renderer<Callsign>
 	{
 	public:
+		/**
+		 * @brief Renders a vector of Callsign objects as JSON and outputs it to the console.
+		 *
+		 * This function takes a vector of Callsign objects and converts them into a JSON string representation using
+		 * the generateJSON() function. The resulting JSON string is then output to the console using std::cout.
+		 *
+		 * @param callsigns A reference to a vector of Callsign objects.
+		 */
 		void Render(const std::vector<Callsign> &callsigns) override
 		{
-			std::string output = generateTable(callsigns);
+			std::string output = generateJSON(callsigns);
 
 			std::cout << output << std::endl;
 		}
 
 	private:
-		std::string generateTable(const std::vector<Callsign> &callsignList)
+		/**
+		 * @brief Generates a JSON string from a list of Callsign objects.
+		 *
+		 * This function takes a vector of Callsign objects and converts them into a JSON string representation using
+		 * the Poco::JSON library. Each Callsign object is converted into a JSON object with its properties as key-value
+		 * pairs. The resulting JSON array is then stringified using the Poco::JSON::Array stringify function.
+		 *
+		 * @param callsignList A vector of Callsign objects.
+		 * @return A string representation of the JSON.
+		 */
+		std::string generateJSON(const std::vector<Callsign> &callsignList)
 		{
 			Poco::JSON::Array root;
 

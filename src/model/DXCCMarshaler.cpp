@@ -16,6 +16,18 @@
 
 using namespace qrz;
 
+/**
+ * @brief Converts an XML string representation of a DXCC record to a DXCC object.
+ *
+ * This function uses the Poco XML parser to parse the XML string and then extracts the relevant data from it to
+ * populate the DXCC object.
+ *
+ * @param xml_str The XML string representation of a DXCC record.
+ *
+ * @return Returns a DXCC object representing the XML data.
+ *
+ * @throws std::runtime_error If there is an error parsing the XML or if the XML is invalid.
+ */
 DXCC DXCCMarshaler::FromXml(const std::string& xml_str)
 {
 	Poco::XML::DOMParser parser;
@@ -77,9 +89,18 @@ DXCC DXCCMarshaler::FromXml(const std::string& xml_str)
 	return dxcc;
 }
 
+/**
+ * @brief Converts a vector of DXCC objects to XML string.
+ *
+ * This function takes a vector of DXCC objects and converts them into XML format using the POCO XML library.
+ * Each DXCC object is represented as a separate XML element with its attributes as child elements.
+ * The resulting XML structure has a root element named "QRZDatabase" and each DXCC object is nested under a "DXCC" element.
+ *
+ * @param dxccList The vector of DXCC objects to be converted.
+ * @return The XML string representation of the DXCC objects.
+ */
 std::string DXCCMarshaler::ToXML(const std::vector<DXCC> &dxccList)
 {
-	Poco::XML::DOMParser parser;
 	Poco::AutoPtr<Poco::XML::Document> pDoc = new Poco::XML::Document;
 
 	auto* pRoot = pDoc->createElement("QRZDatabase");

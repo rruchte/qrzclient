@@ -14,6 +14,15 @@
 
 using namespace qrz;
 
+/**
+ * @brief Converts an XML string representation of a callsign to a Callsign object using the POCO XML library.
+ *
+ * @param xml_str The XML string representation of a callsign.
+ *
+ * @return Returns a Callsign object representing the XML data.
+ *
+ * @throws std::runtime_error If there is an error parsing the XML or if the XML is invalid.
+ */
 Callsign CallsignMarshaler::FromXml(const std::string &xml_str)
 {
 	Poco::XML::DOMParser parser;
@@ -114,9 +123,18 @@ Callsign CallsignMarshaler::FromXml(const std::string &xml_str)
 	return callsign;
 }
 
+/**
+ * @brief Converts a vector of Callsign objects to XML string.
+ *
+ * This function takes a vector of Callsign objects and converts them into XML format using the POCO XML library.
+ * Each Callsign object is represented as a separate XML element with its attributes as child elements.
+ * The resulting XML structure has a root element named "QRZDatabase" and each Callsign object is nested under a "Callsign" element.
+ *
+ * @param callsigns The vector of Callsign objects to be converted.
+ * @return The XML string representation of the Callsign objects.
+ */
 std::string CallsignMarshaler::ToXML(const std::vector<Callsign> &callsigns)
 {
-	Poco::XML::DOMParser parser;
 	Poco::AutoPtr<Poco::XML::Document> pDoc = new Poco::XML::Document;
 
 	auto* pRoot = pDoc->createElement("QRZDatabase");

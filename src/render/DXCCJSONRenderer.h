@@ -14,18 +14,36 @@
 
 namespace qrz::render
 {
+	/**
+	 * @class DXCCJSONRenderer
+	 * @brief The DXCCJSONRenderer class is responsible for rendering DXCC objects into JSON format.
+	 *
+	 * This class inherits from the Renderer base class and provides custom rendering functionality for DXCC objects.
+	 * It converts a vector of DXCC objects into a JSON string representation.
+	 */
 	class DXCCJSONRenderer : public Renderer<DXCC>
 	{
 	public:
+		/**
+		 * Renders a list of DXCC objects into a formatted table and prints it to the console.
+		 *
+		 * @param dxccList The vector of DXCC objects to be rendered.
+		 */
 		void Render(const std::vector<DXCC> &dxccList) override
 		{
-			std::string output = generateTable(dxccList);
+			std::string output = generateJSON(dxccList);
 
 			std::cout << output << std::endl;
 		}
 
 	private:
-		static std::string generateTable(const std::vector<DXCC> &dxccList)
+		/**
+		 * @class DXCCJSONRenderer
+		 * @brief The DXCCJSONRenderer class renders DXCC objects into JSON format.
+		 *
+		 * This class provides functionality to convert a vector of DXCC objects into a JSON string representation.
+		 */
+		static std::string generateJSON(const std::vector<DXCC> &dxccList)
 		{
 			Poco::JSON::Array root;
 			for (const DXCC &dxcc: dxccList)

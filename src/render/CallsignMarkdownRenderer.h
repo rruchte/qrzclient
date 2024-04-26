@@ -13,12 +13,29 @@
 
 namespace qrz::render
 {
+	/**
+	 * @class CallsignMarkdownRenderer
+	 * @brief The CallsignMarkdownRenderer class is responsible for rendering Callsign objects as markdown.
+	 *
+	 * This class derives from the Renderer base class and provides an implementation for rendering Callsign objects as markdown.
+	 * It generates a markdown table with the Callsign object properties and outputs the table to the console.
+	 */
 	class CallsignMarkdownRenderer : public Renderer<Callsign>
 	{
 	public:
+		/**
+		 * @brief Renders a list of Callsign objects as markdown.
+		 *
+		 * This function takes a vector of Callsign objects and generates a markdown table
+		 * with the Callsign object properties. It uses the generateMarkdown function to
+		 * create the markdown table and the MarkdownExporter class to convert the table
+		 * to markdown format. The markdown table is then printed to the console.
+		 *
+		 * @param callsignList A vector of Callsign objects to be rendered.
+		 */
 		void Render(const std::vector<Callsign> &callsignList) override
 		{
-			tabulate::Table output = generateTable(callsignList);
+			tabulate::Table output = generateMarkdown(callsignList);
 
 			tabulate::MarkdownExporter exporter;
 			auto markdown = exporter.dump(output);
@@ -27,7 +44,17 @@ namespace qrz::render
 		}
 
 	private:
-		tabulate::Table generateTable(const std::vector<Callsign> &callsignList)
+		/**
+		 * @brief Generate a markdown table from a list of Callsign objects.
+		 *
+		 * This function takes a vector of Callsign objects and generates a markdown table with the Callsign object
+		 * properties. The table has the following columns: Callsign, Name, Class, Address, City, County, State, Zip,
+		 * Country, and Grid. The Callsign objects are displayed row by row in the table.
+		 *
+		 * @param callsignList A vector of Callsign objects.
+		 * @return A markdown table with the Callsign object properties.
+		 */
+		tabulate::Table generateMarkdown(const std::vector<Callsign> &callsignList)
 		{
 			tabulate::Table output;
 

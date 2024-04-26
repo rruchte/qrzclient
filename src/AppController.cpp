@@ -22,6 +22,15 @@ AppController::AppController()
 	initialize();
 }
 
+/**
+ * @brief Initializes the application by setting up the necessary configurations and checking for authentication.
+ *
+ * This function is responsible for initializing the application. It checks if a callsign is set in the configuration,
+ * and if not, prompts the user to enter their callsign. It also sets the callsign in the QRZ API client. Then, it checks
+ * if a session key and session expiration are set in the configuration. If not, it refreshes the token by fetching a new
+ * session key and expiration from the QRZ API. If the token is already expired, it refreshes it as well. Finally, it sets
+ * the session key and expiration in the QRZ API client.
+ */
 void AppController::initialize()
 {
 	std::string userCall;
@@ -57,6 +66,15 @@ void AppController::initialize()
 	client.setSessionExpiration(config.getSessionExpiration());
 }
 
+
+/**
+ * @brief Handles a command by performing an action based on the command's action type.
+ *
+ * This function takes an AppCommand object and performs different operations based on the command's action type.
+ * The action type determines the type of operation to be performed.
+ *
+ * @param command The AppCommand object representing the command to be executed.
+ */
 void AppController::handleCommand(const AppCommand &command)
 {
 	switch (command.getAction())
@@ -65,7 +83,7 @@ void AppController::handleCommand(const AppCommand &command)
 			fetchAndRenderCallsigns(command.getSearchTerms(), command.getFormat());
 			break;
 		case Action::BIO_ACTION:
-			fetchAndRenderBios(command.getSearchTerms(), command.getFormat());
+			fetchAndRenderBios(command.getSearchTerms());
 			break;
 		case Action::DXCC_ACTION:
 			fetchAndRenderDXCC(command.getSearchTerms(), command.getFormat());
@@ -73,6 +91,16 @@ void AppController::handleCommand(const AppCommand &command)
 	}
 }
 
+/**
+ * @brief Fetches and renders callsigns based on the given search terms and output format.
+ *
+ * This function takes a set of search terms and an output format and fetches the callsign records using the fetchCallsignRecords function.
+ * It then creates a renderer object based on the output format using the RendererFactory and renders the callsigns using the Render function.
+ * After rendering, it updates the application configuration from the client state.
+ *
+ * @param searchTerms The set of search terms used to fetch the callsign records.
+ * @param format The output format in which the callsigns should be rendered.
+ */
 void AppController::fetchAndRenderCallsigns(const std::set<std::string> &searchTerms, const OutputFormat &format)
 {
 	const std::vector<Callsign> callsigns = fetchCallsignRecords(searchTerms);
@@ -84,6 +112,16 @@ void AppController::fetchAndRenderCallsigns(const std::set<std::string> &searchT
 	updateConfigFromClientState();
 }
 
+/**
+* @brief Fetches and renders DXCC records based on the given search terms and output format.
+*
+* This function takes a set of search terms and an output format and fetches the DXCC records using the fetchDXCCRecords function.
+* It then creates a renderer object based on the output format using the RendererFactory and renders the DXCC records using the Render function.
+* After rendering, it updates the application configuration from the client state.
+*
+* @param searchTerms The set of search terms used to fetch the DXCC records.
+* @param format The output format in which the DXCC records should be rendered.
+*/
 void AppController::fetchAndRenderDXCC(const std::set<std::string> &searchTerms, const OutputFormat &format)
 {
 	const std::vector<DXCC> dxccRecords = fetchDXCCRecords(searchTerms);
@@ -95,9 +133,18 @@ void AppController::fetchAndRenderDXCC(const std::set<std::string> &searchTerms,
 	updateConfigFromClientState();
 }
 
-void AppController::fetchAndRenderBios(const std::set<std::string> &searchTerms, const OutputFormat &format)
+/**
+ * @brief Fetches and renders bios based on the given search terms.
+ *
+ * This function fetches the specified callsign records and renders them.
+ *
+ * Unlike callsigns and DXCC records, bio HTML content is rendered directly as it is received from the QRZ API.
+ *
+ * @param searchTerms The set of search terms used to fetch the bio content.
+ */
+void AppController::fetchAndRenderBios(const std::set<std::string> &searchTerms)
 {
-	std::unique_ptr<render::Renderer<std::string>> renderer = render::RendererFactory::createBioRenderer(format);
+	std::unique_ptr<render::Renderer<std::string>> renderer = render::RendererFactory::createBioRenderer();
 
 	std::vector<std::string> bios = fetchBios(searchTerms);
 
@@ -106,6 +153,21 @@ void AppController::fetchAndRenderBios(const std::set<std::string> &searchTerms,
 	updateConfigFromClientState();
 }
 
+/**
+ * @brief Fetches the callsign records based on the given search terms.
+ *
+ * This function fetches the callsign records based on the provided search terms.
+ * It makes API calls to retrieve the callsigns and stores them in a vector.
+ * It handles authentication errors and retries the API call after refreshing the token.
+ * It also displays a progress bar to show the progress of fetching the callsigns.
+ *
+ * @param searchTerms The set of search terms used to fetch the callsign records.
+ * @return A vector of Callsign objects representing the fetched callsign records.
+ *
+ * @note This function assumes that the necessary APIs and client objects are properly initialized before calling this function.
+ * @note This function prints any errors encountered during the API calls to the standard error stream.
+ * @note This function sets the progress bar option and progress values to reflect the progress of fetching the callsigns.
+ */
 std::vector<Callsign> AppController::fetchCallsignRecords(const std::set<std::string> &searchTerms)
 {
 	// Buffer for the output
@@ -193,6 +255,16 @@ std::vector<Callsign> AppController::fetchCallsignRecords(const std::set<std::st
 	return callsigns;
 }
 
+/**
+ * @brief Fetches DXCC records based on the given search terms.
+ *
+ * This function fetches DXCC records based on the provided search terms. It uses the QRZ API client to fetch the records
+ * for each term in the searchTerms set. If an authentication error occurs, it retries the call after refreshing the
+ * authentication token. Any errors that occur during the fetch process are stored in the errors vector.
+ *
+ * @param searchTerms The set of search terms used to fetch the DXCC records.
+ * @return A vector of DXCC objects representing the fetched DXCC records.
+ */
 std::vector<DXCC> AppController::fetchDXCCRecords(const std::set<std::string> &searchTerms)
 {
 	std::vector<DXCC> dxccs;
@@ -258,6 +330,17 @@ std::vector<DXCC> AppController::fetchDXCCRecords(const std::set<std::string> &s
 	return dxccs;
 }
 
+/**
+ * @brief Fetches and returns a vector of bios based on the given search terms.
+ *
+ * This function fetches the specified bio records and returns a vector of bio HTML strings.
+ * It uses the QRZ API client to fetch the bios for each search term.
+ *
+ * @param searchTerms The set of search terms used to fetch the bios.
+ * @return A vector of strings representing the fetched bios.
+ *
+ * @note This function assumes that the necessary APIs and client objects are properly initialized before calling this function.
+ */
 std::vector<std::string> AppController::fetchBios(const std::set<std::string> &searchTerms)
 {
 	std::vector<std::string> bios;
@@ -304,6 +387,16 @@ std::vector<std::string> AppController::fetchBios(const std::set<std::string> &s
 	return bios;
 }
 
+/**
+ * @brief Refreshes the access token by fetching a new token from the QRZ API
+ *
+ * This function refreshes the access token by fetching a new token from the QRZ API.
+ * It retrieves the password from the configuration, and if it is empty, prompts the user to enter it.
+ * The function then sets the username and password in the QRZ client, fetches a new token,
+ * and updates the configuration with the new session information.
+ *
+ * @note This function assumes that the necessary APIs and client objects are properly initialized before calling this function.
+ */
 void AppController::refreshToken()
 {
 	std::string password = config.getPassword();
@@ -323,6 +416,13 @@ void AppController::refreshToken()
 	updateConfigFromClientState();
 }
 
+/**
+* @brief Retrieves the user's callsign from the user.
+*
+* This function prompts the user to enter their callsign and reads the input from the console.
+*
+* @return A string representing the user's callsign.
+*/
 std::string AppController::getUserCallsignFromUser()
 {
 	std::string userCall;
@@ -334,6 +434,13 @@ std::string AppController::getUserCallsignFromUser()
 	return userCall;
 }
 
+/**
+ * @brief Retrieves the password from the user.
+ *
+ * This function prompts the user to enter their password and reads the input from the console.
+ *
+ * @return A string representing the user's password.
+ */
 std::string AppController::getPasswordFromUser()
 {
 	std::string userCall = config.getCallsign();
@@ -354,6 +461,14 @@ std::string AppController::getPasswordFromUser()
 	return password;
 }
 
+/**
+ * @brief Updates the application configuration based on the state of the QRZ API client.
+ *
+ * This function updates the application configuration by setting the callsign, session key, and session expiration
+ * from the QRZ API client. It then saves the configuration.
+ *
+ * @note This function assumes that the QRZ API client and application configuration objects are properly initialized.
+ */
 void AppController::updateConfigFromClientState()
 {
 	config.setCallsign(client.getUsername());
@@ -362,30 +477,71 @@ void AppController::updateConfigFromClientState()
 	config.saveConfig();
 }
 
+/**
+ * @brief Resets the counter for failed API calls.
+ *
+ * This function resets the counter for failed API calls. It sets the value of m_failedCallCount to 0.
+ */
 void AppController::resetFailedCallCount()
 {
 	m_failedCallCount = 0;
 }
 
+/**
+ * @brief Changes the visibility of the console cursor.
+ *
+ * This function sets the visibility of the console cursor based on the value of the parameter `show`.
+ * If `show` is `true`, the console cursor will be displayed. If `show` is `false`, the console cursor will be hidden.
+ *
+ * @param show A boolean value indicating whether to show or hide the console cursor.
+ */
 inline void AppController::showConsoleCursor(bool const show) {
 	std::fputs(show ? "\033[?25h" : "\033[?25l", stderr);
 }
 
 #ifdef WIN32
+/**
+ * @brief Erases the current line in the console.
+ *
+ * This function erases the current line in the console, allowing for output to be overwritten.
+ * It uses the escape sequences "\x1b[1A" and "\x1b[2K" to move the cursor to the beginning of the line and clear all characters.
+ */
 inline void AppController::eraseLine() {
 	std::fputs("\x1b[1A", stderr);
 	std::fputs("\x1b[2K", stderr);
 }
 
+/**
+ * @brief Create a new instance of ProgressBar.
+ *
+ * This static member function creates a new instance of ProgressBar and returns it as a unique_ptr.
+ * It creates an instance of the BlockProgressBar class, which is a concrete implementation of the ProgressBar interface.
+ *
+ * @return A unique_ptr to a ProgressBar object.
+ */
 std::unique_ptr<ProgressBar> AppController::buildProgressBar()
 {
 	return std::make_unique<DefaultProgressBar>();
 }
 #else
+/**
+* @brief Erases the current line in the console.
+*
+* This function erases the current line in the console, allowing for output to be overwritten.
+* It uses the escape sequence "\r\033[K" to move the cursor to the beginning of the line and clear all characters.
+*/
 inline void AppController::eraseLine() {
 	std::fputs("\r\033[K", stderr);
 }
 
+/**
+ * @brief Create a new instance of ProgressBar.
+ *
+ * This static member function creates a new instance of ProgressBar and returns it as a unique_ptr.
+ * It creates an instance of the BlockProgressBar class, which is a concrete implementation of the ProgressBar interface.
+ *
+ * @return A unique_ptr to a ProgressBar object.
+ */
 std::unique_ptr<ProgressBar> AppController::buildProgressBar()
 {
 	return std::make_unique<BlockProgressBar>();

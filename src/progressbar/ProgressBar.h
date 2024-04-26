@@ -11,6 +11,12 @@
 
 namespace qrz
 {
+	/**
+	 * @class ProgressBar
+	 * @brief Represents a progress bar.
+	 *
+	 * This class provides an interface for implementing progress bars.
+	 */
 	class ProgressBar
 	{
 	public:
