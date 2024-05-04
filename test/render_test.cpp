@@ -42,7 +42,7 @@ namespace qrz
 			std::string callsignCsvPayload = R"csv("W1AW","","","291","","ARRL HQ OPERATORS CLUB","225 MAIN ST","NEWINGTON","CT","06111","United States","HAB","41.714775","-72.727260","FN31pr","Hartford","09003","United States","2020-12-08","2031-02-26","","C","HAB","US STATIONS PLEASE QSL VIA LOTW OR DIRECT WITH SASE.","W1AW@ARRL.ORG","","4970576","2144","2023-06-01 19:15:16","https://cdn-xml.qrz.com/w/w1aw/W1AW.jpg","168:250:20359","","2021-10-18 16:09:52","3280","860","Eastern","-5","Y","0","1","5","8","","","1","","user","JOSEPH P CARCIA III","","ARRL HQ OPERATORS CLUB")csv";
 
 			std::string dxccCsvHeader = R"csv("DXCC Code","DXCC Name","Continent","County Code (2)","County Code (3)","ITU Zone","CQ Zone","Timezone","Latitude","Longitude","Notes")csv";
-			std::string dxccCsvPayload = R"csv("291","United States","NA","USA","","0","0","-5","37.701207","-97.316895","")csv";
+			std::string dxccCsvPayload = R"csv("291","United States","NA","US","USA","0","0","-5","37.701207","-97.316895","")csv";
 
 			std::string callsignMDW1AW = R"md(| Callsign |          Name          | Class |   Address   |    City   |  County  | State |  Zip  |    Country    |  Grid  |
 |   :---:  |          :---:         | :---: |    :---:    |   :---:   |   :---:  | :---: | :---: |     :---:     |  :---: |
@@ -51,7 +51,7 @@ namespace qrz
 )md";
 			std::string dxccMD291 = R"md(| DXCC Code |   DXCC Name   | Continent | County Code (2) | County Code (3) | ITU Zone | CQ Zone | Timezone |  Latitude |  Longitude | Notes |
 |   :---:   |     :---:     |   :---:   |      :---:      |      :---:      |   :---:  |  :---:  |   :---:  |   :---:   |    :---:   | :---: |
-| 291       | United States | NA        | USA             |                 | 0        | 0       | -5       | 37.701207 | -97.316895 |       |
+| 291       | United States | NA        | US              | USA             | 0        | 0       | -5       | 37.701207 | -97.316895 |       |
 
 )md";
 
@@ -113,8 +113,8 @@ namespace qrz
 
 			std::string dxccJSON291 = R"json([
     {
-        "cc": "USA",
-        "ccc": "",
+        "cc": "US",
+        "ccc": "USA",
         "continent": "NA",
         "cqzone": "0",
         "dxcc": "291",
@@ -189,8 +189,8 @@ namespace qrz
 <QRZDatabase>
     <DXCC>
         <dxcc>291</dxcc>
-        <cc>USA</cc>
-        <ccc/>
+        <cc>US</cc>
+        <ccc>USA</ccc>
         <name>United States</name>
         <continent>NA</continent>
         <ituzone>0</ituzone>
@@ -238,7 +238,7 @@ namespace qrz
 			DXCC remarshaledDXCC = DXCCMarshaler::FromXml(renderedXML);
 
 			const char *expectedDxcc = "291";
-			const char *expectedCc = "USA";
+			const char *expectedCc = "US";
 			const char *expectedName = "United States";
 
 			ASSERT_STREQ(expectedDxcc, remarshaledDXCC.getDxcc().c_str()) << "DXCC should be " << expectedDxcc;

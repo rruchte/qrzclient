@@ -1,6 +1,7 @@
 #include "CallsignMarshaler.h"
 
 #include <format>
+#include <sstream>
 
 #include <Poco/DOM/AutoPtr.h>
 #include <Poco/DOM/Document.h>

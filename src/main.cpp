@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 
 	program.add_argument("-f", "--format")
 			.default_value("console")
-			.help("Specify the output format. Console[default]|CSV|JSON|XML");
+			.help("Specify the output format. Console[default]|CSV|JSON|XML|MD");
 
 	try
 	{

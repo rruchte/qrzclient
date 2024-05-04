@@ -86,8 +86,8 @@ namespace qrz
 <QRZDatabase>
     <DXCC>
         <dxcc>291</dxcc>
-        <cc>USA</cc>
-        <ccc/>
+        <cc>US</cc>
+        <ccc>USA</ccc>
         <name>United States</name>
         <continent>NA</continent>
         <ituzone>0</ituzone>
@@ -128,7 +128,7 @@ namespace qrz
 			DXCC testDXCC = marshaler.FromXml(dxccXml291);
 
 			const char *expectedDxcc = "291";
-			const char *expectedCc = "USA";
+			const char *expectedCc = "US";
 			const char *expectedName = "United States";
 
 			ASSERT_STREQ(expectedDxcc, testDXCC.getDxcc().c_str()) << "DXCC should be " << expectedDxcc;

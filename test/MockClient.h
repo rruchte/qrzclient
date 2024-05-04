@@ -241,8 +241,8 @@ namespace qrz
 <QRZDatabase>
     <DXCC>
         <dxcc>291</dxcc>
-        <cc>USA</cc>
-        <ccc/>
+        <cc>US</cc>
+        <ccc>USA</ccc>
         <name>United States</name>
         <continent>NA</continent>
         <ituzone>0</ituzone>
@@ -265,8 +265,8 @@ namespace qrz
 <QRZDatabase>
     <DXCC>
         <dxcc>191</dxcc>
-        <cc>NZL</cc>
-        <ccc/>
+        <cc>NZ</cc>
+        <ccc>NZL</ccc>
         <name>North Cook Islands</name>
         <continent>OC</continent>
         <ituzone>62</ituzone>

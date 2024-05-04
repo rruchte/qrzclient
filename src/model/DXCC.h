@@ -79,9 +79,9 @@ namespace qrz
 		 *
 		 * @param cc The 3-letter country code to set.
 		 */
-		void setCcc(const std::string &cc)
+		void setCcc(const std::string &ccc)
 		{
-			m_cc = cc;
+			m_ccc = ccc;
 		}
 
 		/**

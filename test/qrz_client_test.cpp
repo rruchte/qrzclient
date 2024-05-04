@@ -216,7 +216,7 @@ namespace qrz
 			DXCC testDXCC = client.fetchDXCC("291");
 
 			const char *expectedDxcc = "291";
-			const char *expectedCc = "USA";
+			const char *expectedCc = "US";
 			const char *expectedName = "United States";
 
 			ASSERT_STREQ(expectedDxcc, testDXCC.getDxcc().c_str()) << "DXCC should be " << expectedDxcc;

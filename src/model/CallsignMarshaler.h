@@ -3,8 +3,6 @@
 
 #include <vector>
 
-#include <tabulate/table.hpp>
-
 #include "Callsign.h"
 
 namespace qrz

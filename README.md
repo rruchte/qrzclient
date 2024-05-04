@@ -1,8 +1,6 @@
 <p align="center">
-  <a href="https://github.com/rruchte/qrzclient/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="license"/>
-  </a>
-  <img src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" alt="version"/>
+  <a href="https://github.com/rruchte/qrzclient/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="license"></a>
+  <img src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" alt="version">
 </p>
 
 # QRZ Client
@@ -14,7 +12,7 @@
 * DXCC Lookups
 * BIO Retreival
 * Multiple lookups per call
-* Output to console, CSV, JSON, or XML
+* Output to console, CSV, JSON, XML, or Markdown
 
 ### Usage
 ```console
@@ -28,7 +26,7 @@ Optional arguments:
   -h, --help     shows help message and exits 
   -v, --version  prints version information and exits 
   -a, --action   Specify the action to perform. callsign[default]|bio|dxcc [nargs=0..1] [default: "callsign"]
-  -f, --format   Specify the output format. Console[default]|CSV|JSON|XML [nargs=0..1] [default: "console"]
+  -f, --format   Specify the output format. Console[default]|CSV|JSON|XML|MD [nargs=0..1] [default: "console"]
 ```
 
 ### Callsign Lookups
@@ -58,7 +56,7 @@ foo@bar:~$ qrz K8MRD KC5HWB KI6NAZ KT1RUN
 +----------+------------------+-------+---------------------------------+------------+-------------+-------+-------+---------------+--------+
 ```
 
-Output can also be formatted in CSV, JSON, and XML. All fields returned by the API are included in the non-console output formats.
+Output can also be formatted in CSV, JSON, XML, and Markdown. All fields returned by the API are included in the non-console output formats.
 ```console
 foo@bar:~$ qrz -f csv W1AW
 "call","xref","aliases","dxcc","fname","name","addr1","addr2","state","zip","country","ccode","lat","lon","grid","county","fips","land","efdate","expdate","p_call","class","codes","qslmgr","email","url","u_views","bio","biodate","image","imageinfo","serial","moddate","MSA","AreaCode","TimeZone","GMTOffset","DST","eqsl","mqsl","cqzone","ituzone","born","user","lotw","iota","geoloc","attn","nickname","name_fmt"
@@ -84,7 +82,10 @@ foo@bar:~$ qrz -f json W1AW
         "call": "W1AW",
         "ccode": "HAB",
         "class": "C",
-        "codes": "HAB",
+        "codes": "HAB",| DXCC Code |   DXCC Name   | Continent | County Code (2) | County Code (3) | ITU Zone | CQ Zone | Timezone |  Latitude |  Longitude | Notes |
+| DXCC Code |   DXCC Name   | Continent | County Code (2) | County Code (3) | ITU Zone | CQ Zone | Timezone |  Latitude |  Longitude | Notes |
+|   :---:   |     :---:     |   :---:   |      :---:      |      :---:      |   :---:  |  :---:  |   :---:  |   :---:   |    :---:   | :---: |
+| 291       | United States | NA        | US              | USA             | 0        | 0       | -5       | 37.701207 | -97.316895 |       |
         "country": "United States",
         "county": "Hartford",
         "cqzone": 5,
@@ -182,6 +183,13 @@ foo@bar:~$ qrz -f xml W1AW
 </QRZDatabase>
 ```
 
+```console
+foo@bar:~$ qrz -f md W1AW
+| Callsign |          Name          | Class |   Address   |    City   |  County  | State |  Zip  |    Country    |  Grid  |
+|   :---:  |          :---:         | :---: |    :---:    |   :---:   |   :---:  | :---: | :---: |     :---:     |  :---: |
+| W1AW     | ARRL HQ OPERATORS CLUB | C     | 225 MAIN ST | NEWINGTON | Hartford | CT    | 06111 | United States | FN31pr |
+```
+
 Multiple lookups work for all formats:
 ```console
 foo@bar:~$ qrz -f xml K8MRD KC5HWB KI6NAZ KT1RUN
@@ -233,7 +241,7 @@ foo@bar:~$ qrz -a dxcc 291
 +-----------+---------------+-----------+-----------------+-----------------+----------+---------+----------+-----------+------------+-------+
 | DXCC Code |   DXCC Name   | Continent | County Code (2) | County Code (3) | ITU Zone | CQ Zone | Timezone |  Latitude |  Longitude | Notes |
 +-----------+---------------+-----------+-----------------+-----------------+----------+---------+----------+-----------+------------+-------+
-| 291       | United States | NA        | USA             |                 | 0        | 0       | -5       | 37.701207 | -97.316895 |       |
+| 291       | United States | NA        | US              | USA             | 0        | 0       | -5       | 37.701207 | -97.316895 |       |
 +-----------+---------------+-----------+-----------------+-----------------+----------+---------+----------+-----------+------------+-------+
 ```
 
@@ -242,18 +250,18 @@ foo@bar:~$ qrz -a dxcc RV3DW
 +-----------+-----------+-----------+-----------------+-----------------+----------+---------+----------+-----------+-----------+-------+
 | DXCC Code | DXCC Name | Continent | County Code (2) | County Code (3) | ITU Zone | CQ Zone | Timezone |  Latitude | Longitude | Notes |
 +-----------+-----------+-----------+-----------------+-----------------+----------+---------+----------+-----------+-----------+-------+
-| 54        | Russia    | EU        | RUS             |                 | 19       | 16      | 3        | 55.751849 | 37.529297 |       |
+| 54        | Russia    | EU        | RU              | RUS             | 19       | 16      | 3        | 55.751849 | 37.529297 |       |
 +-----------+-----------+-----------+-----------------+-----------------+----------+---------+----------+-----------+-----------+-------+
 ```
 
-CSV, JSON, and XML formats are also provided for DXCC lookups.
+CSV, JSON, XML, and Markdown formats are also provided for DXCC lookups.
 
 ```console
 foo@bar:~$ qrz -a dxcc -f json RV3DW 
 [
     {
-        "cc": "RUS",
-        "ccc": "",
+        "cc": "RU",
+        "ccc": "RUS",
         "continent": "EU",
         "cqzone": "16",
         "dxcc": "54",
@@ -273,8 +281,8 @@ foo@bar:~$ qrz -a dxcc -f xml 281
 <QRZDatabase>
     <DXCC>
         <dxcc>281</dxcc>
-        <cc>ESP</cc>
-        <ccc/>
+        <cc>ES</cc>
+        <ccc>ESP</ccc>
         <name>Spain</name>
         <continent>EU</continent>
         <ituzone>37</ituzone>
@@ -290,7 +298,14 @@ foo@bar:~$ qrz -a dxcc -f xml 281
 ```console
 foo@bar:~$ qrz -a dxcc -f csv 270 
 "DXCC Code","DXCC Name","Continent","County Code (2)","County Code (3)","ITU Zone","CQ Zone","Timezone","Latitude","Longitude","Notes"
-"270","Tokelau Islands","OC","TKL","","62","31","-11","-9.210560","-171.958008",""
+"270","Tokelau Islands","OC","TK","TKL","62","31","-11","-9.210560","-171.958008",""
+```
+
+```console
+foo@bar:~$ qrz -a dxcc -f md 181
+| DXCC Code |  DXCC Name | Continent | County Code (2) | County Code (3) | ITU Zone | CQ Zone | Timezone |  Latitude  | Longitude | Notes |
+|   :---:   |    :---:   |   :---:   |      :---:      |      :---:      |   :---:  |  :---:  |   :---:  |    :---:   |   :---:   | :---: |
+| 181       | Mozambique | AF        | MZ              | MOZ             | 53       | 37      | 2        | -24.647017 | 32.827148 |       |
 ```
 
 ### Bio Retreival
