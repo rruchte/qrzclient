@@ -82,10 +82,7 @@ foo@bar:~$ qrz -f json W1AW
         "call": "W1AW",
         "ccode": "HAB",
         "class": "C",
-        "codes": "HAB",| DXCC Code |   DXCC Name   | Continent | County Code (2) | County Code (3) | ITU Zone | CQ Zone | Timezone |  Latitude |  Longitude | Notes |
-| DXCC Code |   DXCC Name   | Continent | County Code (2) | County Code (3) | ITU Zone | CQ Zone | Timezone |  Latitude |  Longitude | Notes |
-|   :---:   |     :---:     |   :---:   |      :---:      |      :---:      |   :---:  |  :---:  |   :---:  |   :---:   |    :---:   | :---: |
-| 291       | United States | NA        | US              | USA             | 0        | 0       | -5       | 37.701207 | -97.316895 |       |
+        "codes": "HAB",
         "country": "United States",
         "county": "Hartford",
         "cqzone": 5,
