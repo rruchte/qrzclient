@@ -186,7 +186,8 @@ std::vector<Callsign> AppController::fetchCallsignRecords(const std::set<std::st
 	float tickSize = 100/searchTerms.size();
 
 	// Use an iterator so we cen reset the current element in the event of authentication error
-	for (auto it = searchTerms.begin() ; it != searchTerms.end() ; it++)
+	auto it = searchTerms.begin();
+	while (it != searchTerms.end())
 	{
 		const std::string &call = *it;
 
@@ -208,6 +209,8 @@ std::vector<Callsign> AppController::fetchCallsignRecords(const std::set<std::st
 
 			// Reset the fail counter
 			resetFailedCallCount();
+
+			it++;
 		}
 		catch (AuthenticationException &e)
 		{
@@ -221,9 +224,6 @@ std::vector<Callsign> AppController::fetchCallsignRecords(const std::set<std::st
 				// Ask the user for their password, and refresh the bearer token
 				refreshToken();
 
-				// Roll the iterator back to retry this call
-				it = std::prev(it);
-
 				// Increment the error counter so we don't do this forever
 				m_failedCallCount++;
 			}
@@ -231,12 +231,16 @@ std::vector<Callsign> AppController::fetchCallsignRecords(const std::set<std::st
 			{
 				// Save the error for display after we have mde all of our API calls
 				errors.push_back(std::format("QRZ API Error: {:s}", e.what()));
+
+				it++;
 			}
 		}
 		catch (std::exception &e)
 		{
 			// Save the error for display after we have mde all of our API calls
 			errors.emplace_back(e.what());
+
+			it++;
 		}
 	}
 
@@ -279,7 +283,8 @@ std::vector<DXCC> AppController::fetchDXCCRecords(const std::set<std::string> &s
 	float tickSize = 100/searchTerms.size();
 
 	// Use an iterator so we cen reset the current element in the event of authentication error
-	for (auto it = searchTerms.begin() ; it != searchTerms.end() ; it++)
+	auto it = searchTerms.begin();
+	while (it != searchTerms.end())
 	{
 		const std::string &term = *it;
 
@@ -293,6 +298,8 @@ std::vector<DXCC> AppController::fetchDXCCRecords(const std::set<std::string> &s
 			dxccs.push_back(client.fetchDXCC(term));
 
 			resetFailedCallCount();
+
+			it++;
 		}
 		catch (AuthenticationException &e)
 		{
@@ -300,19 +307,18 @@ std::vector<DXCC> AppController::fetchDXCCRecords(const std::set<std::string> &s
 			{
 				refreshToken();
 
-				// Roll the iterator back to retry this call
-				it = std::prev(it);
-
 				m_failedCallCount++;
 			}
 			else
 			{
 				errors.push_back(std::format("QRZ API Error: {:s}", e.what()));
+				it++;
 			}
 		}
 		catch (std::exception &e)
 		{
 			errors.emplace_back(e.what());
+			it++;
 		}
 	}
 
@@ -347,7 +353,8 @@ std::vector<std::string> AppController::fetchBios(const std::set<std::string> &s
 	std::vector<std::string> errors;
 
 	// Use an iterator so we cen reset the current element in the event of authentication error
-	for (auto it = searchTerms.begin() ; it != searchTerms.end() ; it++)
+	auto it = searchTerms.begin();
+	while (it != searchTerms.end())
 	{
 		const std::string &call = *it;
 
@@ -356,6 +363,8 @@ std::vector<std::string> AppController::fetchBios(const std::set<std::string> &s
 			bios.push_back(client.fetchBio(call));
 
 			resetFailedCallCount();
+
+			it++;
 		}
 		catch (AuthenticationException &e)
 		{
@@ -371,11 +380,15 @@ std::vector<std::string> AppController::fetchBios(const std::set<std::string> &s
 			else
 			{
 				errors.push_back(std::format("QRZ API Error: {:s}", e.what()));
+
+				it++;
 			}
 		}
 		catch (std::exception &e)
 		{
 			errors.emplace_back(e.what());
+
+			it++;
 		}
 	}
 
