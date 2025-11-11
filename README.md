@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/rruchte/qrzclient/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="license"></a>
-  <img src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" alt="version">
+  <img src="https://img.shields.io/badge/version-1.1-blue.svg?cacheSeconds=2592000" alt="version">
 </p>
 
 # QRZ Client
