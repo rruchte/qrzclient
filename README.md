@@ -25,7 +25,7 @@ Positional arguments:
 Optional arguments:
   -h, --help     shows help message and exits 
   -v, --version  prints version information and exits 
-  -a, --action   Specify the action to perform. callsign[default]|bio|dxcc [nargs=0..1] [default: "callsign"]
+  -a, --action   Specify the action to perform. callsign[default]|bio|dxcc|login [nargs=0..1] [default: "callsign"]
   -f, --format   Specify the output format. Console[default]|CSV|JSON|XML|MD [nargs=0..1] [default: "console"]
 ```
 
@@ -379,7 +379,16 @@ foo@bar:~$ qrz -a bio W1AW
 </body>
 </html>
 ```
-
+### Reset Login Details
+Change your callsign and/or password
+```console
+foo@bar:~$ qrz -a login 
+Are you sure you want to reset your login? [Y/n]: Y
+Enter your callsign:
+K4RWR
+Login required. Enter the QRZ password for K4RWR:
+Login details updated
+```
 ### Notes
 * An active qrz.com XML subscription is required. You will be prompted to enter your callsign and qrz.com password.
 * Your password will be AES-256 encrypted and stored in a config file in your home directory.

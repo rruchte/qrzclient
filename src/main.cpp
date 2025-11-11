@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 
 	program.add_argument("-a", "--action")
 			.default_value("callsign")
-			.help("Specify the action to perform. callsign[default]|bio|dxcc");
+			.help("Specify the action to perform. callsign[default]|bio|dxcc|login");
 
 	program.add_argument("-f", "--format")
 			.default_value("console")
@@ -36,13 +36,6 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	//If we have no input, print help and exit
-	if(!program.is_used("search"))
-	{
-		std::cout << program << std::endl;
-		return 1;
-	}
-
 	AppController controller;
 
 	AppCommand command;
@@ -50,16 +43,10 @@ int main(int argc, char **argv)
 	std::string action = program.get<std::string>("-a");
 	std::string format = program.get<std::string>("-f");
 
-	auto rawSearchList = program.get<std::vector<std::string>>("search");
-
-	// Convert the vector to a set, we do not want duplicates
-	std::set<std::string> searchList(rawSearchList.begin(), rawSearchList.end());
-
 	qrz::ToUpper(action);
 	qrz::ToUpper(format);
 
-	command.setSearchTerms(searchList);
-
+	bool searchInputRequired = true;
 	if(action.empty() || action == "CALLSIGN")
 	{
 		command.setAction(Action::CALLSIGN_ACTION);
@@ -71,6 +58,11 @@ int main(int argc, char **argv)
 	else if(action == "DXCC")
 	{
 		command.setAction(Action::DXCC_ACTION);
+	}
+	else if(action == "LOGIN")
+	{
+		searchInputRequired = false;
+		command.setAction(Action::RESET_LOGIN_ACTION);
 	}
 
 	if(format.empty() || format == "CONSOLE")
@@ -92,6 +84,24 @@ int main(int argc, char **argv)
 	else if(format == "MD")
 	{
 		command.setFormat(OutputFormat::MD);
+	}
+
+	// Handle search input, is necessary
+	if(searchInputRequired)
+	{
+		// If we have no input, print help and exit
+		if(!program.is_used("search"))
+		{
+			std::cout << program << std::endl;
+			return 1;
+		}
+
+		auto rawSearchList = program.get<std::vector<std::string>>("search");
+
+		// Convert the vector to a set, we do not want duplicates
+		std::set<std::string> searchList(rawSearchList.begin(), rawSearchList.end());
+
+		command.setSearchTerms(searchList);
 	}
 
 	controller.handleCommand(command);

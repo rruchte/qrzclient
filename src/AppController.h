@@ -60,6 +60,13 @@ namespace qrz
 		 */
 		void initialize();
 
+		/**
+		 * @brief Initializes the application by setting up the necessary configurations and checking for authentication.
+		 *
+		 * This function is responsible for initializing the application. It performs various checks to verify that all
+		 * necessary configuration information is in place, and if not, gathers the information from the user.
+		 */
+		void resetLogin();
 
 		/**
 		 * @brief Fetches and renders callsigns based on the given search terms and output format.
@@ -153,6 +160,15 @@ namespace qrz
 		 * @return A string representing the user's password.
 		 */
 		std::string getPasswordFromUser();
+
+		/**
+		 * @brief Gets user confirmation for a provided prompt.
+		 *
+		 * This function prompts the user to enter Y or n to confirm a provided prompt. Only a Y or y will return true
+		 *
+		 * @return A boolean representing the user's confirmation
+		 */
+		bool getConfirmationFromUser(const std::string &prompt);
 
 		/**
 		 * @brief Resets the counter for failed API calls.

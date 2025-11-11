@@ -10,7 +10,8 @@ namespace qrz
 	{
 		BIO_ACTION,
 		CALLSIGN_ACTION,
-		DXCC_ACTION
+		DXCC_ACTION,
+		RESET_LOGIN_ACTION
 	};
 }
 

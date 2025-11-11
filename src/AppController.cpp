@@ -66,7 +66,6 @@ void AppController::initialize()
 	client.setSessionExpiration(config.getSessionExpiration());
 }
 
-
 /**
  * @brief Handles a command by performing an action based on the command's action type.
  *
@@ -88,7 +87,44 @@ void AppController::handleCommand(const AppCommand &command)
 		case Action::DXCC_ACTION:
 			fetchAndRenderDXCC(command.getSearchTerms(), command.getFormat());
 			break;
+		case Action::RESET_LOGIN_ACTION:
+			resetLogin();
+			break;
 	}
+}
+
+/**
+ * @brief Get the username and password from the user and refresh the access token
+ *
+ * This prompts the user to enter their callsign and password, saves them in the configuration, ans sets the callsign
+ * in the QRZ API client. Then, it then refreshes the token by fetching a new session key and expiration from the QRZ
+ * API. Finally, it sets the session key and expiration in the QRZ API client.
+ */
+void AppController::resetLogin()
+{
+	if (!getConfirmationFromUser("Are you sure you want to reset your login?"))
+	{
+		return;
+	}
+
+	std::string userCall;
+	std::string password;
+
+	userCall = getUserCallsignFromUser();
+	config.setCallsign(userCall);
+	config.saveConfig();
+
+	// This automatically saves the configuration
+	getPasswordFromUser();
+
+	client.setUsername(userCall);
+
+	refreshToken();
+
+	client.setSessionKey(config.getSessionKey());
+	client.setSessionExpiration(config.getSessionExpiration());
+
+	std::cout << "Login details updated" << std::endl;
 }
 
 /**
@@ -412,6 +448,8 @@ std::vector<std::string> AppController::fetchBios(const std::set<std::string> &s
  */
 void AppController::refreshToken()
 {
+
+
 	std::string password = config.getPassword();
 
 	if(password.empty())
@@ -473,6 +511,27 @@ std::string AppController::getPasswordFromUser()
 
 	return password;
 }
+
+/**
+ * @brief Gets user confirmation for a provided prompt.
+ *
+ * This function prompts the user to enter Y or n to confirm a provided prompt. Only a Y or y will return true
+ *
+ * @return A boolean representing the user's confirmation
+ */
+bool AppController::getConfirmationFromUser(const std::string& prompt)
+{
+	std::string response;
+
+	std::cout << prompt << " [Y/n]: ";
+	std::cin >> response;
+
+	// Convert to uppercase for easier comparison
+	ToUpper(response);
+
+	return response == "Y";
+}
+
 
 /**
  * @brief Updates the application configuration based on the state of the QRZ API client.
