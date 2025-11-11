@@ -11,7 +11,7 @@ using namespace qrz;
 
 int main(int argc, char **argv)
 {
-	argparse::ArgumentParser program("qrz");
+	argparse::ArgumentParser program("qrz", "1.1.0");
 
 	program.add_argument("search")
 			.help("Callsign or DXCC ID to fetch details for.")

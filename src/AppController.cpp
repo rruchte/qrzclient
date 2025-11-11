@@ -112,12 +112,18 @@ void AppController::resetLogin()
 
 	userCall = getUserCallsignFromUser();
 	config.setCallsign(userCall);
+	config.setPassword("");
+	config.setSessionKey("");
+	config.setSessionExpiration("");
 	config.saveConfig();
+
+	client.setUsername(userCall);
+	client.setPassword("");
+	client.setSessionKey("");
+	client.setSessionExpiration("1970-01-01 00:00:00");
 
 	// This automatically saves the configuration
 	getPasswordFromUser();
-
-	client.setUsername(userCall);
 
 	refreshToken();
 
