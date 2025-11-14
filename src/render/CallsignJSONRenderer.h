@@ -63,7 +63,7 @@ namespace qrz::render
 				currValue.set("fname", callsign.getFname());
 				currValue.set("name", callsign.getName());
 				currValue.set("addr1", callsign.getAddr1());
-				currValue.set("addr2", callsign.getAddr2());
+				currValue.set("city", callsign.getCity());
 				currValue.set("state", callsign.getState());
 				currValue.set("zip", callsign.getZip());
 				currValue.set("country", callsign.getCountry());

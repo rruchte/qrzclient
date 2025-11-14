@@ -38,7 +38,7 @@ namespace qrz
 			// Save cout's buffer here
 			std::streambuf *sbuf;
 
-			std::string callsignCsvHeader = R"csv("call","xref","aliases","dxcc","fname","name","addr1","addr2","state","zip","country","ccode","lat","lon","grid","county","fips","land","efdate","expdate","p_call","class","codes","qslmgr","email","url","u_views","bio","biodate","image","imageinfo","serial","moddate","MSA","AreaCode","TimeZone","GMTOffset","DST","eqsl","mqsl","cqzone","ituzone","born","user","lotw","iota","geoloc","attn","nickname","name_fmt")csv";
+			std::string callsignCsvHeader = R"csv("call","xref","aliases","dxcc","fname","name","addr1","city","state","zip","country","ccode","lat","lon","grid","county","fips","land","efdate","expdate","p_call","class","codes","qslmgr","email","url","u_views","bio","biodate","image","imageinfo","serial","moddate","MSA","AreaCode","TimeZone","GMTOffset","DST","eqsl","mqsl","cqzone","ituzone","born","user","lotw","iota","geoloc","attn","nickname","name_fmt")csv";
 			std::string callsignCsvPayload = R"csv("W1AW","","","291","","ARRL HQ OPERATORS CLUB","225 MAIN ST","NEWINGTON","CT","06111","United States","HAB","41.714775","-72.727260","FN31pr","Hartford","09003","United States","2020-12-08","2031-02-26","","C","HAB","US STATIONS PLEASE QSL VIA LOTW OR DIRECT WITH SASE.","W1AW@ARRL.ORG","","4970576","2144","2023-06-01 19:15:16","https://cdn-xml.qrz.com/w/w1aw/W1AW.jpg","168:250:20359","","2021-10-18 16:09:52","3280","860","Eastern","-5","Y","0","1","5","8","","","1","","user","JOSEPH P CARCIA III","","ARRL HQ OPERATORS CLUB")csv";
 
 			std::string dxccCsvHeader = R"csv("DXCC Code","DXCC Name","Continent","County Code (2)","County Code (3)","ITU Zone","CQ Zone","Timezone","Latitude","Longitude","Notes")csv";
@@ -63,7 +63,6 @@ namespace qrz
         "MSA": "3280",
         "TimeZone": "Eastern",
         "addr1": "225 MAIN ST",
-        "addr2": "NEWINGTON",
         "aliases": "",
         "attn": "JOSEPH P CARCIA III",
         "bio": 2144,
@@ -71,6 +70,7 @@ namespace qrz
         "born": "",
         "call": "W1AW",
         "ccode": "HAB",
+        "city": "NEWINGTON",
         "class": "C",
         "codes": "HAB",
         "country": "United States",
@@ -138,7 +138,7 @@ namespace qrz
         <fname/>
         <name>ARRL HQ OPERATORS CLUB</name>
         <addr1>225 MAIN ST</addr1>
-        <addr2>NEWINGTON</addr2>
+        <city>NEWINGTON</city>
         <state>CT</state>
         <zip>06111</zip>
         <country>United States</country>

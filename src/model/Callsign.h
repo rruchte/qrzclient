@@ -218,6 +218,30 @@ namespace qrz
 		}
 
 		/**
+		 * @brief Returns the value of the Address line 2.
+		 *
+		 * This function returns a constant reference to the Address line 2 (i.e, city name).
+		 *
+		 * @return const std::string& for the Address line 2.
+		 */
+		const std::string &getCity() const
+		{
+			return m_city;
+		}
+
+		/**
+		 * @brief Sets the Address line 2.
+		 *
+		 * This function sets the Address line 2 (i.e, city name) to the given value.
+		 *
+		 * @param fname A reference to a string containing the Address line 2 to be set.
+		 */
+		void setCity(const std::string &city)
+		{
+			m_city = city;
+		}
+
+		/**
 		 * @brief Returns the value of the State.
 		 *
 		 * This function returns a constant reference to the State (USA Only).
@@ -1238,8 +1262,11 @@ namespace qrz
 		// Address line 1 (i.e. house # and street)
 		std::string m_addr1;
 
-		// Address line 2 (i.e, city name)
+		// Address line 2 (QRZ XML uses this for the city, be we have a separate field for that, this will be unused)
 		std::string m_addr2;
+
+		// City
+		std::string m_city;
 
 		// State (USA Only)
 		std::string m_state;

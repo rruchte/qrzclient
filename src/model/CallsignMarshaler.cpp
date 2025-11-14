@@ -72,7 +72,8 @@ Callsign CallsignMarshaler::FromXml(const std::string &xml_str)
 				else if (name == "fname") callsign.setFname(value);
 				else if (name == "name") callsign.setName(value);
 				else if (name == "addr1") callsign.setAddr1(value);
-				else if (name == "addr2") callsign.setAddr2(value);
+				else if (name == "addr2") callsign.setCity(value); // QRZ Schema sends city in addr
+				else if (name == "city") callsign.setCity(value); // In case QRZ ever fixes their API...
 				else if (name == "state") callsign.setState(value);
 				else if (name == "zip") callsign.setZip(value);
 				else if (name == "country") callsign.setCountry(value);
@@ -153,7 +154,7 @@ std::string CallsignMarshaler::ToXML(const std::vector<Callsign> &callsigns)
 		pCallsignElement->appendChild(pDoc->createElement("fname"))->appendChild(pDoc->createTextNode(callsign.getFname()));
 		pCallsignElement->appendChild(pDoc->createElement("name"))->appendChild(pDoc->createTextNode(callsign.getName()));
 		pCallsignElement->appendChild(pDoc->createElement("addr1"))->appendChild(pDoc->createTextNode(callsign.getAddr1()));
-		pCallsignElement->appendChild(pDoc->createElement("addr2"))->appendChild(pDoc->createTextNode(callsign.getAddr2()));
+		pCallsignElement->appendChild(pDoc->createElement("city"))->appendChild(pDoc->createTextNode(callsign.getCity()));
 		pCallsignElement->appendChild(pDoc->createElement("state"))->appendChild(pDoc->createTextNode(callsign.getState()));
 		pCallsignElement->appendChild(pDoc->createElement("zip"))->appendChild(pDoc->createTextNode(callsign.getZip()));
 		pCallsignElement->appendChild(pDoc->createElement("country"))->appendChild(pDoc->createTextNode(callsign.getCountry()));

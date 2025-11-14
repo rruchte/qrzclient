@@ -109,10 +109,12 @@ namespace qrz
 			const char *expectedCall = "W1AW";
 			const char *expectedName = "ARRL HQ OPERATORS CLUB";
 			const char *expectedEmail = "W1AW@ARRL.ORG";
+			const char *expectedCity = "NEWINGTON";
 
 			ASSERT_STREQ(expectedCall, testCallsign.getCall().c_str()) << "Call should be " << expectedCall;
 			ASSERT_STREQ(expectedName, testCallsign.getName().c_str()) << "Name should be " << expectedName;
 			ASSERT_STREQ(expectedEmail, testCallsign.getEmail().c_str()) << "Email should be " << expectedEmail;
+			ASSERT_STREQ(expectedCity, testCallsign.getCity().c_str()) << "City should be " << expectedCity;
 
 			std::string exportedXml = marshaler.ToXML(std::vector<Callsign> {testCallsign});
 			Callsign remarshaledCallsign = marshaler.FromXml(exportedXml);
@@ -120,6 +122,7 @@ namespace qrz
 			ASSERT_STREQ(expectedCall, remarshaledCallsign.getCall().c_str()) << "Call should be " << expectedCall;
 			ASSERT_STREQ(expectedName, remarshaledCallsign.getName().c_str()) << "Name should be " << expectedName;
 			ASSERT_STREQ(expectedEmail, remarshaledCallsign.getEmail().c_str()) << "Email should be " << expectedEmail;
+			ASSERT_STREQ(expectedCity, remarshaledCallsign.getCity().c_str()) << "City should be " << expectedCity;
 		}
 
 		TEST_F(MarshalerTests, TestDXCCMarshal)
