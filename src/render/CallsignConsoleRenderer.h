@@ -80,7 +80,7 @@ namespace qrz::render
 									   callsign.getNameFmt(),
 									   callsign.getClass(),
 									   callsign.getAddr1(),
-									   callsign.getAddr2(),
+									   callsign.getCity(),
 									   callsign.getCounty(),
 									   callsign.getState(),
 									   callsign.getZip(),

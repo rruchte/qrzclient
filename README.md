@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/rruchte/qrzclient/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="license"></a>
-  <img src="https://img.shields.io/badge/version-1.1-blue.svg?cacheSeconds=2592000" alt="version">
+  <img src="https://img.shields.io/badge/version-1.2-blue.svg?cacheSeconds=2592000" alt="version">
 </p>
 
 # QRZ Client
@@ -59,7 +59,7 @@ foo@bar:~$ qrz K8MRD KC5HWB KI6NAZ KT1RUN
 Output can also be formatted in CSV, JSON, XML, and Markdown. All fields returned by the API are included in the non-console output formats.
 ```console
 foo@bar:~$ qrz -f csv W1AW
-"call","xref","aliases","dxcc","fname","name","addr1","addr2","state","zip","country","ccode","lat","lon","grid","county","fips","land","efdate","expdate","p_call","class","codes","qslmgr","email","url","u_views","bio","biodate","image","imageinfo","serial","moddate","MSA","AreaCode","TimeZone","GMTOffset","DST","eqsl","mqsl","cqzone","ituzone","born","user","lotw","iota","geoloc","attn","nickname","name_fmt"
+"call","xref","aliases","dxcc","fname","name","addr1","city","state","zip","country","ccode","lat","lon","grid","county","fips","land","efdate","expdate","p_call","class","codes","qslmgr","email","url","u_views","bio","biodate","image","imageinfo","serial","moddate","MSA","AreaCode","TimeZone","GMTOffset","DST","eqsl","mqsl","cqzone","ituzone","born","user","lotw","iota","geoloc","attn","nickname","name_fmt"
 "W1AW","","","291","","ARRL HQ OPERATORS CLUB","225 MAIN ST","NEWINGTON","CT","06111","United States","HAB","41.714775","-72.727260","FN31pr","Hartford","09003","United States","2020-12-08","2031-02-26","","C","HAB","US STATIONS PLEASE QSL VIA LOTW OR DIRECT WITH SASE.","W1AW@ARRL.ORG","","4969953","2144","2023-06-01 19:15:16","https://cdn-xml.qrz.com/w/w1aw/W1AW.jpg","168:250:20359","","2021-10-18 16:09:52","3280","860","Eastern","-5","Y","0","1","5","8","","","1","","user","JOSEPH P CARCIA III","","ARRL HQ OPERATORS CLUB"
 ```
 
@@ -73,7 +73,7 @@ foo@bar:~$ qrz -f json W1AW
         "MSA": 3280,
         "TimeZone": "Eastern",
         "addr1": "225 MAIN ST",
-        "addr2": "NEWINGTON",
+        "city": "NEWINGTON",
         "aliases": "",
         "attn": "JOSEPH P CARCIA III",
         "bio": 2144,
@@ -133,7 +133,7 @@ foo@bar:~$ qrz -f xml W1AW
         <fname/>
         <name>ARRL HQ OPERATORS CLUB</name>
         <addr1>225 MAIN ST</addr1>
-        <addr2>NEWINGTON</addr2>
+        <city>NEWINGTON</city>
         <state>CT</state>
         <zip>06111</zip>
         <country>United States</country>
@@ -392,6 +392,7 @@ Login details updated
 ### Notes
 * An active qrz.com XML subscription is required. You will be prompted to enter your callsign and qrz.com password.
 * Your password will be AES-256 encrypted and stored in a config file in your home directory.
+* There is a quirk of the QRZ XML Schema that sends the city in an element called "addr2". For clarity, we have chosen to rename that field to "city" on output.
 * This project is in no way affiliated with qrz.com.
 
 *DE K4RWR 73*
