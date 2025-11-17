@@ -392,7 +392,6 @@ Login details updated
 ### Notes
 * An active qrz.com XML subscription is required. You will be prompted to enter your callsign and qrz.com password.
 * Your password will be AES-256 encrypted and stored in a config file in your home directory.
-* There is a quirk of the QRZ XML Schema that sends the city in an element called "addr2". For clarity, we have chosen to rename that field to "city" on output.
 * This project is in no way affiliated with qrz.com.
 
 *DE K4RWR 73*
