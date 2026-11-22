@@ -57,7 +57,16 @@ target_link_libraries(qrz_test
         indicators::indicators
         GTest::gtest_main)
 
-add_test(NAME qrz_gtests
-        COMMAND qrz_test --gtest_color=1
-
+# AppControllerTests construct the real CLI controller and require an interactive
+# credentials/configuration environment. Keep them available as opt-in tests,
+# but do not run them on unattended CI runners.
+add_test(NAME qrz_unit_tests
+        COMMAND qrz_test --gtest_filter=-AppControllerTests.* --gtest_color=1
 )
+
+option(QRZCLIENT_ENABLE_INTERACTIVE_TESTS
+       "Enable AppController tests that use the live interactive configuration" OFF)
+if (QRZCLIENT_ENABLE_INTERACTIVE_TESTS)
+    add_test(NAME qrz_controller_integration_tests
+             COMMAND qrz_test --gtest_filter=AppControllerTests.* --gtest_color=1)
+endif()
