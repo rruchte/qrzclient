@@ -20,7 +20,7 @@ The tagged workflow produces:
 - `qrz-linux-x64.tar.gz` (Ubuntu 24.04 build baseline)
 - `SHA256SUMS`
 
-It must pass build/tests for all three platforms before publishing the GitHub Release. A pull request exercises the build and artifact validation but does not publish. An interactive QRZ API call requires account credentials, so CI cannot validate live authentication. Smoke-test installation and live callsign, DXCC, and biography queries on each supported OS before publishing.
+It must pass build/tests for all three platforms before publishing the GitHub Release. A pull request exercises the build and artifact validation but does not publish. CI runs the offline GTest unit tests; existing `AppControllerTests` instantiate the real interactive controller and are **excluded from unattended CI**. They can be enabled locally with `-DQRZCLIENT_ENABLE_INTERACTIVE_TESTS=ON` in a configured interactive environment. These tests are not yet hermetic and should ultimately use injected mock clients. CI cannot validate live QRZ authentication without credentials. Smoke-test installation and live callsign, DXCC, and biography queries on each supported OS before publishing.
 
 ## Known limitations
 
