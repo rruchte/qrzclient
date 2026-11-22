@@ -17,6 +17,7 @@ The tagged workflow produces:
 
 - `qrz-windows-x64.zip`
 - `qrz-macos-x64.tar.gz` (Intel x86_64, unsigned)
+- `qrz-macos-arm64.tar.gz` (Apple Silicon arm64, unsigned)
 - `qrz-linux-x64.tar.gz` (Ubuntu 24.04 build baseline)
 - `SHA256SUMS`
 
@@ -24,7 +25,7 @@ It must pass build/tests for all three platforms before publishing the GitHub Re
 
 ## Known limitations
 
-Static third-party linking is used to minimize runtime dependencies, but Linux still depends on a compatible system glibc and platform libraries. Windows and macOS packages are CLI binaries, not installers. macOS is not signed or notarized, and there is no native Apple Silicon artifact yet.
+Static third-party linking is used to minimize runtime dependencies, but Linux still depends on a compatible system glibc and platform libraries. Windows and macOS packages are CLI binaries, not installers. macOS is not signed or notarized, and native Apple Silicon binaries are now built separately from Intel packages.
 
 ## Security follow-up
 
