@@ -1,0 +1,127 @@
+name: Build and release QRZ Client
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.platform }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: Windows x64
+            os: windows-2022
+            artifact: qrz-windows-x64
+            executable: build/src/qrz.exe
+          - platform: macOS Intel
+            os: macos-15-intel
+            artifact: qrz-macos-x64
+            executable: build/src/qrz
+          - platform: Linux x64
+            os: ubuntu-24.04
+            artifact: qrz-linux-x64
+            executable: build/src/qrz
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up MSVC
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Install build tools
+        run: python -m pip install "conan>=2,<3" "cmake>=3.29,<4"
+
+      - name: Prepare Conan profile
+        shell: bash
+        run: conan profile detect --force
+
+      - name: Restore Conan cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.conan2/p
+          key: qrzclient-conan-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('conanfile.py', 'conandata.yml') }}
+          restore-keys: |
+            qrzclient-conan-v1-${{ runner.os }}-${{ runner.arch }}-
+
+      - name: Configure
+        shell: bash
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES="$GITHUB_WORKSPACE/conan_provider.cmake"
+
+      - name: Build
+        run: cmake --build build --parallel 2
+
+      - name: Run tests
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Package Windows binary
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Copy-Item build/src/qrz.exe dist/qrz.exe
+          Copy-Item README.md,LICENSE dist/
+          Compress-Archive -Path dist/* -DestinationPath qrz-windows-x64.zip -Force
+
+      - name: Package Unix binary
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp build/src/qrz README.md LICENSE dist/
+          chmod +x dist/qrz
+          tar -czf "qrz-${{ runner.os == 'macOS' && 'macos' || 'linux' }}-x64.tar.gz" -C dist .
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            qrz-*.zip
+            qrz-*.tar.gz
+          if-no-files-found: error
+
+  publish:
+    name: Validate and publish release
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: qrz-*
+          path: release
+          merge-multiple: true
+      - name: Validate all packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s release/qrz-windows-x64.zip
+          test -s release/qrz-macos-x64.tar.gz
+          test -s release/qrz-linux-x64.tar.gz
+          (cd release && sha256sum qrz-windows-x64.zip qrz-macos-x64.tar.gz qrz-linux-x64.tar.gz > SHA256SUMS)
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/qrz-windows-x64.zip
+            release/qrz-macos-x64.tar.gz
+            release/qrz-linux-x64.tar.gz
+            release/SHA256SUMS
+          generate_release_notes: true
+          fail_on_unmatched_files: true
