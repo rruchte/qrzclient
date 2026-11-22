@@ -81,6 +81,12 @@ jobs:
       - name: Run tests
         run: ctest --test-dir build --output-on-failure
 
+      - name: Smoke-test CLI startup
+        shell: bash
+        run: |
+          "${{ matrix.executable }}" --help
+          "${{ matrix.executable }}" --version
+
       - name: Package Windows binary
         if: runner.os == 'Windows'
         shell: pwsh
