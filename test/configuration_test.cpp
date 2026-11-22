@@ -27,7 +27,7 @@ namespace qrz
 				configDirPath = std::filesystem::temp_directory_path().string();
 
 #ifdef WIN32
-				expectedConfigFilePath = std::format("{:s}.qrz\\qrz.cfg", configDirPath);
+				expectedConfigFilePath = std::format("{:s}\\.qrz\\qrz.cfg", configDirPath);
 #else
 				expectedConfigFilePath = std::format("{:s}/.config/qrz/qrz.cfg", configDirPath);
 #endif
@@ -48,7 +48,7 @@ namespace qrz
 				if (configFileExists)
 				{
 #ifdef WIN32
-					std::string toRemovePath = std::format("{:s}.qrz", configDirPath);
+					std::string toRemovePath = std::format("{:s}\\.qrz", configDirPath);
 #else
 					std::string toRemovePath = std::format("{:s}/.config", configDirPath);
 #endif
@@ -60,6 +60,12 @@ namespace qrz
 			std::string configDirPath;
 			std::string expectedConfigFilePath;
 		};
+
+		TEST_F(ConfigurationTests, EmptyCallsignDoesNotHangDuringPasswordEncryption)
+		{
+			Configuration config(configDirPath);
+			EXPECT_THROW(config.setPassword("test-password"), std::runtime_error);
+		}
 
 		TEST_F(ConfigurationTests, TestPersist)
 		{

@@ -308,12 +308,14 @@ namespace qrz
 				}
 				else
 				{
-					std::cerr << "HTTP error: " << httpResponse.getReason() << std::endl;
+					throw std::runtime_error("QRZ callsign lookup failed (HTTP " +
+					                         std::to_string(httpResponse.getStatus()) + " " +
+					                         httpResponse.getReason() + ")");
 				}
 			}
-			catch (Poco::Exception& ex)
+			catch (const Poco::Exception& ex)
 			{
-				std::cerr << "Poco error: " << ex.displayText() << std::endl;
+				throw std::runtime_error("QRZ callsign lookup failed: " + ex.displayText());
 			}
 
 			return callsign;

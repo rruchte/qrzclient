@@ -414,9 +414,8 @@ std::vector<std::string> AppController::fetchBios(const std::set<std::string> &s
 			{
 				refreshToken();
 
-				// Roll the iterator back to retry this call
-				it = std::prev(it);
-
+				// Leave the iterator on this callsign; the next iteration retries it.
+				// std::prev(begin()) is undefined and could crash on the first result.
 				m_failedCallCount++;
 			}
 			else

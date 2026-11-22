@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <format>
 #include <iostream>
+#include <stdexcept>
 
 #ifdef WIN32
 #include <userenv.h>
@@ -454,6 +455,10 @@ Poco::Crypto::Cipher::Ptr Configuration::createCipher()
 std::string Configuration::createCryptoPassKey()
 {
 	std::string passkey = getCallsign();
+	if (passkey.empty())
+	{
+		throw std::runtime_error("Cannot encrypt QRZ credentials without a callsign");
+	}
 	while(passkey.size() < 64) {
 		passkey.append(getCallsign());
 	}

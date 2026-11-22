@@ -29,7 +29,7 @@ namespace qrz
 				configDirPath = std::filesystem::temp_directory_path().string();
 
 #ifdef WIN32
-				expectedConfigFilePath = std::format("{:s}.qrz\\qrz.cfg", configDirPath);
+				expectedConfigFilePath = std::format("{:s}\\.qrz\\qrz.cfg", configDirPath);
 #else
 				expectedConfigFilePath = std::format("{:s}/.config/qrz/qrz.cfg", configDirPath);
 #endif
@@ -78,7 +78,7 @@ namespace qrz
 				if (configFileExists)
 				{
 #ifdef WIN32
-					std::string toRemovePath = std::format("{:s}.qrz", configDirPath);
+					std::string toRemovePath = std::format("{:s}\\.qrz", configDirPath);
 #else
 					std::string toRemovePath = std::format("{:s}/.config", configDirPath);
 #endif
@@ -196,6 +196,25 @@ namespace qrz
 			const char *expectedSessionKey = "2331uf894c4bd29f3923f3bacf02c532d7bd9";
 
 			ASSERT_STREQ(expectedSessionKey, client.getSessionKey().c_str()) << "Session key should be " << expectedSessionKey;
+		}
+
+		TEST_F(QrzClientTests, HttpLookupFailureDoesNotProduceIncompleteCallsign)
+		{
+			class FailingClient final : public QRZClient
+			{
+			public:
+				QrzResponse sendRequest(Poco::URI &) override
+				{
+					Poco::Net::HTTPResponse response;
+					response.setStatus(Poco::Net::HTTPResponse::HTTP_SERVICE_UNAVAILABLE);
+					return QrzResponse(response, "");
+				}
+			};
+
+			FailingClient failingClient;
+			failingClient.setSessionKey("test");
+			failingClient.setSessionExpiration(generateFutureSessionExpiration());
+			EXPECT_THROW(failingClient.fetchCallsign("W1AW"), std::runtime_error);
 		}
 
 		TEST_F(QrzClientTests, TestFetchCallsign)

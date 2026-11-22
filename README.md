@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://github.com/rruchte/qrzclient/blob/master/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="license"></a>
-  <img src="https://img.shields.io/badge/version-1.2-blue.svg?cacheSeconds=2592000" alt="version">
+  <a href="https://github.com/rruchte/qrzclient/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="license"></a>
+  <img src="https://img.shields.io/badge/version-1.3.0-blue.svg?cacheSeconds=2592000" alt="version">
 </p>
 
 # QRZ Client
@@ -10,9 +10,25 @@
 #### Features
 * Callsign lookups
 * DXCC Lookups
-* BIO Retreival
+* BIO retrieval
 * Multiple lookups per call
 * Output to console, CSV, JSON, XML, or Markdown
+
+### Prebuilt releases
+
+Download Windows x64, Intel macOS, and Linux x64 command-line archives from [GitHub Releases](https://github.com/rruchte/qrzclient/releases). Multiplatform archives begin with the forthcoming **v1.3.0** release; older tags ship Windows binaries only.
+
+| Platform | File | Use |
+| --- | --- | --- |
+| Windows x64 | `qrz-windows-x64.zip` | Extract the ZIP and run `qrz.exe` in PowerShell or Command Prompt |
+| macOS Intel | `qrz-macos-x64.tar.gz` | Extract and run `./qrz` in Terminal; this is an Intel executable, not an Apple Silicon build |
+| Linux x64 | `qrz-linux-x64.tar.gz` | Extract and run `./qrz` from a terminal |
+
+The archives also include this README and the license. The macOS executable is unsigned and unnotarized and may require a macOS Gatekeeper override after download. The Linux build targets Ubuntu 24.04's glibc baseline and might not work on older distributions.
+
+**First run:** An active QRZ.com XML subscription is required. The application prompts for your QRZ callsign and password and saves its configuration locally. Run `qrz --help` for the command-line options.
+
+**Release process:** Changes to `main` build and test on Windows, macOS Intel, and Linux. Pushing a fresh `v*` tag publishes all three platform archives and SHA-256 checksums if every job passes. See [release instructions](docs/releasing.md).
 
 ### Usage
 ```console
