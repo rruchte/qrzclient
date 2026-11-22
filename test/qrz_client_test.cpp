@@ -198,6 +198,25 @@ namespace qrz
 			ASSERT_STREQ(expectedSessionKey, client.getSessionKey().c_str()) << "Session key should be " << expectedSessionKey;
 		}
 
+		TEST_F(QrzClientTests, HttpLookupFailureDoesNotProduceIncompleteCallsign)
+		{
+			class FailingClient final : public QRZClient
+			{
+			public:
+				QrzResponse sendRequest(Poco::URI &) override
+				{
+					Poco::Net::HTTPResponse response;
+					response.setStatus(Poco::Net::HTTPResponse::HTTP_SERVICE_UNAVAILABLE);
+					return QrzResponse(response, "");
+				}
+			};
+
+			FailingClient failingClient;
+			failingClient.setSessionKey("test");
+			failingClient.setSessionExpiration(generateFutureSessionExpiration());
+			EXPECT_THROW(failingClient.fetchCallsign("W1AW"), std::runtime_error);
+		}
+
 		TEST_F(QrzClientTests, TestFetchCallsign)
 		{
 			Callsign testCallsign = client.fetchCallsign("W1AW");
