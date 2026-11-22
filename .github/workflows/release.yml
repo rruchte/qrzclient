@@ -10,6 +10,11 @@ on:
 permissions:
   contents: read
 
+# A new PR commit supersedes earlier builds; never cancel a tagged release.
+concurrency:
+  group: qrzclient-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
 jobs:
   build:
     name: ${{ matrix.platform }}
