@@ -16,7 +16,7 @@
 
 ### Prebuilt releases
 
-Download Windows x64, Intel and Apple Silicon macOS, and Linux x64 command-line archives from [GitHub Releases](https://github.com/rruchte/qrzclient/releases). Multiplatform archives begin with the forthcoming **v1.3.0** release; older tags ship Windows binaries only.
+Download Windows x64, Intel and Apple Silicon macOS, and Linux x64 command-line archives from [GitHub Releases](https://github.com/rruchte/qrzclient/releases). Multiplatform archives began with **v1.3.0**; native Apple Silicon packages are planned for the next release.
 
 | Platform | File | Use |
 | --- | --- | --- |
