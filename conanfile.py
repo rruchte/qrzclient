@@ -5,6 +5,8 @@ class ConanApplication(ConanFile):
     package_type = "application"
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeDeps"
+    # Prefer static third-party libraries for portable CLI archives.
+    default_options = {"*:shared": False}
 
     def layout(self):
         cmake_layout(self)
