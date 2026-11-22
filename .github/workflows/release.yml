@@ -30,6 +30,12 @@ jobs:
             os: macos-15-intel
             artifact: qrz-macos-x64
             executable: build/src/qrz
+            package_arch: x64
+          - platform: macOS Apple Silicon
+            os: macos-15
+            artifact: qrz-macos-arm64
+            executable: build/src/qrz
+            package_arch: arm64
           - platform: Linux x64
             os: ubuntu-24.04
             artifact: qrz-linux-x64
@@ -87,6 +93,15 @@ jobs:
           "${{ matrix.executable }}" --help
           "${{ matrix.executable }}" --version
 
+      - name: Verify macOS native architecture
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          expected="$(uname -m)"
+          actual="$(lipo -archs build/src/qrz)"
+          echo "Expected $expected, got $actual"
+          test "$actual" = "$expected"
+
       - name: Package Windows binary
         if: runner.os == 'Windows'
         shell: pwsh
@@ -103,7 +118,11 @@ jobs:
           mkdir -p dist
           cp build/src/qrz README.md LICENSE dist/
           chmod +x dist/qrz
-          tar -czf "qrz-${{ runner.os == 'macOS' && 'macos' || 'linux' }}-x64.tar.gz" -C dist .
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            tar -czf "qrz-macos-${{ matrix.package_arch }}.tar.gz" -C dist .
+          else
+            tar -czf "qrz-linux-x64.tar.gz" -C dist .
+          fi
 
       - name: Upload package
         uses: actions/upload-artifact@v4
@@ -132,8 +151,9 @@ jobs:
           set -euo pipefail
           test -s release/qrz-windows-x64.zip
           test -s release/qrz-macos-x64.tar.gz
+          test -s release/qrz-macos-arm64.tar.gz
           test -s release/qrz-linux-x64.tar.gz
-          (cd release && sha256sum qrz-windows-x64.zip qrz-macos-x64.tar.gz qrz-linux-x64.tar.gz > SHA256SUMS)
+          (cd release && sha256sum qrz-windows-x64.zip qrz-macos-x64.tar.gz qrz-macos-arm64.tar.gz qrz-linux-x64.tar.gz > SHA256SUMS)
       - name: Publish GitHub Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
@@ -141,6 +161,7 @@ jobs:
           files: |
             release/qrz-windows-x64.zip
             release/qrz-macos-x64.tar.gz
+            release/qrz-macos-arm64.tar.gz
             release/qrz-linux-x64.tar.gz
             release/SHA256SUMS
           generate_release_notes: true

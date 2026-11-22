@@ -16,15 +16,16 @@
 
 ### Prebuilt releases
 
-Download Windows x64, Intel macOS, and Linux x64 command-line archives from [GitHub Releases](https://github.com/rruchte/qrzclient/releases). Multiplatform archives begin with the forthcoming **v1.3.0** release; older tags ship Windows binaries only.
+Download Windows x64, Intel and Apple Silicon macOS, and Linux x64 command-line archives from [GitHub Releases](https://github.com/rruchte/qrzclient/releases). Multiplatform archives began with **v1.3.0**; native Apple Silicon packages are planned for the next release.
 
 | Platform | File | Use |
 | --- | --- | --- |
 | Windows x64 | `qrz-windows-x64.zip` | Extract the ZIP and run `qrz.exe` in PowerShell or Command Prompt |
-| macOS Intel | `qrz-macos-x64.tar.gz` | Extract and run `./qrz` in Terminal; this is an Intel executable, not an Apple Silicon build |
+| macOS Intel | `qrz-macos-x64.tar.gz` | Extract and run `./qrz` in Terminal on an Intel Mac |
+| macOS Apple Silicon | `qrz-macos-arm64.tar.gz` | Extract and run `./qrz` on an M-series Mac |
 | Linux x64 | `qrz-linux-x64.tar.gz` | Extract and run `./qrz` from a terminal |
 
-The archives also include this README and the license. The macOS executable is unsigned and unnotarized and may require a macOS Gatekeeper override after download. The Linux build targets Ubuntu 24.04's glibc baseline and might not work on older distributions.
+The archives also include this README and the license. The macOS executables are unsigned and unnotarized and may require a macOS Gatekeeper override after download. The Linux build targets Ubuntu 24.04's glibc baseline and might not work on older distributions.
 
 **First run:** An active QRZ.com XML subscription is required. The application prompts for your QRZ callsign and password and saves its configuration locally. Run `qrz --help` for the command-line options.
 
