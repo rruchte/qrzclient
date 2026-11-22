@@ -1,4 +1,3 @@
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s")
 
 add_executable(qrz main.cpp
         Action.h
@@ -35,7 +34,7 @@ add_executable(qrz main.cpp
         render/RendererFactory.h
 )
 
-install(TARGETS qrz)
+install(TARGETS qrz RUNTIME DESTINATION bin)
 
 find_package(argparse REQUIRED)
 find_package(indicators REQUIRED)
