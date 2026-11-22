@@ -61,6 +61,12 @@ namespace qrz
 			std::string expectedConfigFilePath;
 		};
 
+		TEST_F(ConfigurationTests, EmptyCallsignDoesNotHangDuringPasswordEncryption)
+		{
+			Configuration config(configDirPath);
+			EXPECT_THROW(config.setPassword("test-password"), std::runtime_error);
+		}
+
 		TEST_F(ConfigurationTests, TestPersist)
 		{
 			auto inputConfig = Configuration(configDirPath);
